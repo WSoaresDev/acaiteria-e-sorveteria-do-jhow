@@ -1,38 +1,32 @@
 const DB = {
     products: [
         { 
-            id: 1, 
-            cat: 'acai', 
-            name: "Açaí Tradicional Prime", 
-            desc: "Dois sabores de açaí, com a opção de escolher diversos acompanhamentos, e uma calda", 
-            img: "https://images.unsplash.com/photo-1590301157890-4810ed352733?w=500", 
-            options: [
-                {s:"200ml", p:10.00}, 
-                {s:"300ml", p:12.00}, 
-                {s:"400ml", p:16.00}, 
-                {s:"500ml", p:18.00}, 
-                {s:"770ml", p:22.00}, 
-                {s:"1 Litro", p:31.00}
-            ] 
+            id: 1, cat: 'acai', name: "Açaí Tradicional Prime", desc: "Dois sabores de açaí, com a opção de escolher diversos acompanhamentos, e uma calda", img: "https://images.unsplash.com/photo-1590301157890-4810ed352733?w=500", 
+            options: [{s:"200ml", p:10}, {s:"300ml", p:12}, {s:"400ml", p:16}, {s:"500ml", p:18}, {s:"770ml", p:22}, {s:"1 Litro", p:31}] 
         },
         { 
-            id: 2, 
-            cat: 'sorvete', 
-            name: "Sorvete Prime", 
-            desc: "Dois sabores de sorvete, com a opção de escolher diversos acompanhamentos, e uma calda", 
-            img: "https://images.unsplash.com/photo-1567206563064-6f60f40a2b57?w=500", 
-            options: [
-                {s:"200ml", p:10.00}, 
-                {s:"300ml", p:12.00}, 
-                {s:"400ml", p:16.00}, 
-                {s:"500ml", p:20.00}, 
-                {s:"770ml", p:22.00}, 
-                {s:"1 Litro", p:31.00}
-            ] 
-        }
+            id: 2, cat: 'sorvete', name: "Sorvete Prime", desc: "Dois sabores de sorvete, com a opção de escolher diversos acompanhamentos, e uma calda", img: "https://images.unsplash.com/photo-1567206563064-6f60f40a2b57?w=500", 
+            options: [{s:"200ml", p:10}, {s:"300ml", p:12}, {s:"400ml", p:16}, {s:"500ml", p:20}, {s:"770ml", p:22}, {s:"1 Litro", p:31}] 
+        },
+        { 
+            id: 3, cat: 'casadinho', name: "Açaí com Sorvete", desc: "Um sabor de açaí e um sabor de sorvete, com a opção de escolher diversos acompanhamentos, e uma calda", img: "https://images.unsplash.com/photo-1580915411954-282cb1b0d780?w=500", 
+            options: [{s:"200ml", p:10}, {s:"300ml", p:12}, {s:"400ml", p:16}, {s:"500ml", p:18}, {s:"770ml", p:22}, {s:"1 Litro", p:31}] 
+        },
+        // PICOLÉS
+        { id: 4, cat: 'picole', name: "Picolé Leite Condensado", desc: "Saboroso e refrescante", img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=500", options: [{s:"Unidade", p:3.00}] },
+        { id: 5, cat: 'picole', name: "Picolé Milho Verde", desc: "Saboroso e refrescante", img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=500", options: [{s:"Unidade", p:3.00}] },
+        { id: 6, cat: 'picole', name: "Picolé de Coco", desc: "Saboroso e refrescante", img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=500", options: [{s:"Unidade", p:3.00}] },
+        { id: 7, cat: 'picole', name: "Picolé de Tapioca com Coco", desc: "Saboroso e refrescante", img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=500", options: [{s:"Unidade", p:3.00}] },
+        { id: 8, cat: 'picole', name: "Picolé de Manga", desc: "Saboroso e refrescante", img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=500", options: [{s:"Unidade", p:3.00}] },
+        { id: 9, cat: 'picole', name: "Picolé de Maracujá", desc: "Saboroso e refrescante", img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=500", options: [{s:"Unidade", p:3.00}] },
+        { id: 10, cat: 'picole', name: "Picolé de Uva", desc: "Saboroso e refrescante", img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=500", options: [{s:"Unidade", p:3.00}] },
+        { id: 11, cat: 'picole', name: "Picolé Brigadeiro Skimo", desc: "Cobertura crocante de chocolate", img: "https://images.unsplash.com/photo-1560008581-09826d1de69e?w=500", options: [{s:"Unidade", p:6.00}] },
+        { id: 12, cat: 'picole', name: "Picolé Chocolate Branco Skimo", desc: "Cobertura crocante de chocolate branco", img: "https://images.unsplash.com/photo-1560008581-09826d1de69e?w=500", options: [{s:"Unidade", p:6.00}] },
+        { id: 13, cat: 'picole', name: "Picolé Tapioca Recheado", desc: "Recheio cremoso de Leite Condensado", img: "https://images.unsplash.com/photo-1560008581-09826d1de69e?w=500", options: [{s:"Unidade", p:7.00}] },
+        { id: 14, cat: 'picole', name: "Picolé Maracujá Recheado", desc: "Recheio cremoso de Leite Condensado", img: "https://images.unsplash.com/photo-1560008581-09826d1de69e?w=500", options: [{s:"Unidade", p:7.00}] }
     ],
     config: {
-        whatsApp: "5511999998888", // TROQUE PELO SEU NÚMERO
+        whatsApp: "5511999998888", 
         horarioAbertura: 11,
         horarioFechamento: 23,
         taxas: { "Nova Belém": 5.00, "Chacrinha": 7.00, "Beira Rio": 4.00, "0": 0 }
@@ -52,19 +46,25 @@ document.addEventListener('DOMContentLoaded', () => {
 function renderProducts(cat) {
     const list = document.getElementById('product-list');
     const filtered = cat === 'todos' ? DB.products : DB.products.filter(p => p.cat === cat);
-    list.innerHTML = filtered.map(p => `
+    
+    list.innerHTML = filtered.map(p => {
+        // Se for picolé, não precisa do select de tamanhos se só tiver uma opção
+        const hideSelect = p.cat === 'picole' ? 'display:none' : '';
+        const priceLabel = p.cat === 'picole' ? `R$ ${p.options[0].p.toFixed(2)}` : '';
+
+        return `
         <div class="p-card" data-aos="fade-up">
             <img src="${p.img}" class="p-img">
             <div class="p-info">
-                <h3 class="p-title">${p.name}</h3>
+                <h3 class="p-title">${p.name} ${priceLabel}</h3>
                 <p class="p-desc">${p.desc}</p>
-                <select id="size-${p.id}" class="p-selector">
+                <select id="size-${p.id}" class="p-selector" style="${hideSelect}">
                     ${p.options.map(o => `<option value="${o.p}">${o.s} - R$ ${o.p.toFixed(2)}</option>`).join('')}
                 </select>
                 <button class="btn-add" onclick="addItem(${p.id})">Adicionar ao Pedido</button>
             </div>
         </div>
-    `).join('');
+    `}).join('');
 }
 
 function filterMenu(cat, el) {
@@ -76,8 +76,10 @@ function filterMenu(cat, el) {
 function addItem(id) {
     const p = DB.products.find(i => i.id === id);
     const sel = document.getElementById(`size-${id}`);
-    const sizeName = sel.options[sel.selectedIndex].text.split(' - ')[0];
-    CART.push({ name: `${p.name} (${sizeName})`, price: parseFloat(sel.value) });
+    const price = parseFloat(sel.value);
+    const label = p.cat === 'picole' ? p.name : `${p.name} (${sel.options[sel.selectedIndex].text.split(' - ')[0]})`;
+    
+    CART.push({ name: label, price: price });
     updateCartUI();
 }
 
@@ -94,7 +96,7 @@ function addChefCombination() {
     document.querySelectorAll('.extra-free:checked').forEach(e => extras.push(e.value));
     CART.push({ name: `Chef: ${label} (${extras.join(', ')})`, price });
     updateCartUI();
-    alert("Montagem adicionada ao carrinho!");
+    alert("Adicionado!");
 }
 
 function applyCoupon() {
@@ -116,9 +118,9 @@ function updateCartUI() {
     
     flow.innerHTML = CART.map((item, i) => `
         <div class="cart-item" style="display:flex; justify-content:space-between; margin-bottom:10px; border-bottom:1px solid #eee; padding-bottom:5px;">
-            <span>${item.name}</span>
+            <span style="font-size: 0.9rem;">${item.name}</span>
             <div>
-                <span>R$ ${item.price.toFixed(2)}</span>
+                <span style="font-weight: bold;">R$ ${item.price.toFixed(2)}</span>
                 <i class="fas fa-trash" onclick="remove(${i})" style="color:red; margin-left:10px; cursor:pointer"></i>
             </div>
         </div>
@@ -150,6 +152,7 @@ function sendToWhatsApp() {
 
     let msg = `*NOVO PEDIDO - AÇAÍ PRIME*%0A%0A`;
     CART.forEach(i => msg += `• ${i.name} - R$ ${i.price.toFixed(2)}%0A`);
+    msg += `%0A*Subtotal:* ${document.getElementById('subtotal').innerText}`;
     msg += `%0A*Bairro:* ${bairro}`;
     msg += `%0A*TOTAL:* ${document.getElementById('cart-total').innerText}`;
     window.open(`https://wa.me/${DB.config.whatsApp}?text=${msg}`);
