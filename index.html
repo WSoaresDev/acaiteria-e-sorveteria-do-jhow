@@ -60,58 +60,72 @@
     <main class="container" id="cardapio">
         <div class="section-header">
             <h2>Nosso Cardápio</h2>
-            <p>Escolha o seu sabor e tamanho ideal</p>
+            <p>Escolha o seu preferido para personalizar</p>
         </div>
         <div id="product-list" class="product-grid"></div>
     </main>
 
-    <section id="monte-seu" class="builder-section">
+    <section id="monte-seu" class="builder-section" style="display: none;">
         <div class="container">
             <div class="builder-card-premium" data-aos="zoom-in">
                 <div class="builder-header">
-                    <h3><i class="fas fa-magic"></i> Chef do Açaí</h3>
-                    <p>Monte sua combinação (Máximo 3 acompanhamentos grátis)</p>
+                    <h3><i class="fas fa-utensils"></i> Personalize seu <span id="selected-product-name">...</span></h3>
+                    <p>Complete seu pedido abaixo:</p>
                 </div>
                 <div class="builder-body">
-                    <div class="step">
-                        <label><span class="numb">1</span> Escolha a Base e Tamanho</label>
-                        <select id="custom-base" class="premium-select">
-                            <optgroup label="Açaí">
-                                <option value="10.00">Açaí 200ml - R$ 10,00</option>
-                                <option value="12.00">Açaí 300ml - R$ 12,00</option>
-                                <option value="16.00">Açaí 400ml - R$ 16,00</option>
-                                <option value="18.00">Açaí 500ml - R$ 18,00</option>
-                                <option value="22.00">Açaí 770ml - R$ 22,00</option>
-                                <option value="31.00">Açaí 1 Litro - R$ 31,00</option>
-                            </optgroup>
-                            <optgroup label="Sorvete">
-                                <option value="10.00">Sorvete 200ml - R$ 10,00</option>
-                                <option value="12.00">Sorvete 300ml - R$ 12,00</option>
-                                <option value="16.00">Sorvete 400ml - R$ 16,00</option>
-                                <option value="20.00">Sorvete 500ml - R$ 20,00</option>
-                                <option value="22.00">Sorvete 770ml - R$ 22,00</option>
-                                <option value="31.00">Sorvete 1 Litro - R$ 31,00</option>
-                            </optgroup>
-                            <optgroup label="Açaí c/ Sorvete">
-                                <option value="10.00">Açaí c/ Sorvete 200ml - R$ 10,00</option>
-                                <option value="12.00">Açaí c/ Sorvete 300ml - R$ 12,00</option>
-                                <option value="16.00">Açaí c/ Sorvete 400ml - R$ 16,00</option>
-                                <option value="18.00">Açaí c/ Sorvete 500ml - R$ 18,00</option>
-                                <option value="22.00">Açaí c/ Sorvete 770ml - R$ 22,00</option>
-                                <option value="31.00">Açaí c/ Sorvete 1L - R$ 31,00</option>
-                            </optgroup>
-                        </select>
-                    </div>
-                    <div class="step">
-                        <label><span class="numb">2</span> Acompanhamentos (Máximo 3)</label>
+                    
+                    <div class="step" id="step-sabores-acai">
+                        <label><span class="numb">1</span> Sabores de Açaí (Até 2)</label>
                         <div class="checkbox-grid">
-                            <label class="check-container">Banana <input type="checkbox" class="extra-free" value="Banana" onchange="limitCheckboxes()"></label>
-                            <label class="check-container">Granola <input type="checkbox" class="extra-free" value="Granola" onchange="limitCheckboxes()"></label>
-                            <label class="check-container">Leite Pó <input type="checkbox" class="extra-free" value="Leite Pó" onchange="limitCheckboxes()"></label>
-                            <label class="check-container">Leite Cond. <input type="checkbox" class="extra-free" value="Leite Cond." onchange="limitCheckboxes()"></label>
+                            <label class="check-container">Açaí Tradicional <input type="checkbox" class="extra-sabor-acai" value="Açaí Tradicional" onchange="limitChecks('extra-sabor-acai', 2)"></label>
+                            <label class="check-container">Açaí Trufado <input type="checkbox" class="extra-sabor-acai" value="Açaí Trufado" onchange="limitChecks('extra-sabor-acai', 2)"></label>
+                            <label class="check-container">Açaí c/ Ninho <input type="checkbox" class="extra-sabor-acai" value="Açaí c/ Ninho" onchange="limitChecks('extra-sabor-acai', 2)"></label>
                         </div>
                     </div>
-                    <button class="btn-build" onclick="addChefCombination()">Adicionar ao Pedido</button>
+
+                    <div class="step" id="step-sabores-sorvete">
+                        <label><span class="numb">2</span> Sabores de Sorvete (Até 2)</label>
+                        <div class="checkbox-grid">
+                            <label class="check-container">Morango <input type="checkbox" class="extra-sabor-sorvete" value="Sorvete Morango" onchange="limitChecks('extra-sabor-sorvete', 2)"></label>
+                            <label class="check-container">Chocolate <input type="checkbox" class="extra-sabor-sorvete" value="Sorvete Chocolate" onchange="limitChecks('extra-sabor-sorvete', 2)"></label>
+                            <label class="check-container">Creme <input type="checkbox" class="extra-sabor-sorvete" value="Sorvete Creme" onchange="limitChecks('extra-sabor-sorvete', 2)"></label>
+                            <label class="check-container">Flocos <input type="checkbox" class="extra-sabor-sorvete" value="Sorvete Flocos" onchange="limitChecks('extra-sabor-sorvete', 2)"></label>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <label><span class="numb">3</span> Acompanhamentos Grátis (Até 3)</label>
+                        <div class="checkbox-grid">
+                            <label class="check-container">Granola <input type="checkbox" class="extra-free" value="Granola" onchange="limitChecks('extra-free', 3)"></label>
+                            <label class="check-container">Leite Pó <input type="checkbox" class="extra-free" value="Leite Pó" onchange="limitChecks('extra-free', 3)"></label>
+                            <label class="check-container">Leite Cond. <input type="checkbox" class="extra-free" value="Leite Cond." onchange="limitChecks('extra-free', 3)"></label>
+                            <label class="check-container">Paçoca <input type="checkbox" class="extra-free" value="Paçoca" onchange="limitChecks('extra-free', 3)"></label>
+                            <label class="check-container">Chocoball <input type="checkbox" class="extra-free" value="Chocoball" onchange="limitChecks('extra-free', 3)"></label>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <label><span class="numb">4</span> Frutas (Até 2)</label>
+                        <div class="checkbox-grid">
+                            <label class="check-container">Banana <input type="checkbox" class="extra-fruta" value="Banana" onchange="limitChecks('extra-fruta', 2)"></label>
+                            <label class="check-container">Morango <input type="checkbox" class="extra-fruta" value="Morango" onchange="limitChecks('extra-fruta', 2)"></label>
+                            <label class="check-container">Uva <input type="checkbox" class="extra-fruta" value="Uva" onchange="limitChecks('extra-fruta', 2)"></label>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <label><span class="numb">5</span> Calda (Escolha 1)</label>
+                        <div class="checkbox-grid">
+                            <label class="check-container">Chocolate <input type="checkbox" class="extra-calda" value="Chocolate" onchange="limitChecks('extra-calda', 1)"></label>
+                            <label class="check-container">Morango <input type="checkbox" class="extra-calda" value="Morango" onchange="limitChecks('extra-calda', 1)"></label>
+                            <label class="check-container">Leite Cond. <input type="checkbox" class="extra-calda" value="Calda Leite Cond." onchange="limitChecks('extra-calda', 1)"></label>
+                        </div>
+                    </div>
+
+                    <div style="display:flex; gap:10px;">
+                        <button class="btn-build" style="background:#666;" onclick="cancelSelection()">Cancelar</button>
+                        <button class="btn-build" onclick="confirmChefItem()">Adicionar ao Pedido</button>
+                    </div>
                 </div>
             </div>
         </div>
