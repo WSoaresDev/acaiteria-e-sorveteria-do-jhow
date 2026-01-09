@@ -1,29 +1,40 @@
 const DB = {
     products: [
         { 
-            id: 1, cat: 'acai', name: "Açaí Tradicional Prime", desc: "Dois sabores de açaí, com a opção de escolher diversos acompanhamentos, e uma calda", img: "https://images.unsplash.com/photo-1590301157890-4810ed352733?w=500", 
+            id: 1, cat: 'acai', name: "Açaí Tradicional Prime", desc: "Dois sabores de açaí, diversos acompanhamentos e uma calda", img: "https://images.unsplash.com/photo-1590301157890-4810ed352733?w=500", 
             options: [{s:"200ml", p:10}, {s:"300ml", p:12}, {s:"400ml", p:16}, {s:"500ml", p:18}, {s:"770ml", p:22}, {s:"1 Litro", p:31}] 
         },
         { 
-            id: 2, cat: 'sorvete', name: "Sorvete Prime", desc: "Dois sabores de sorvete, com a opção de escolher diversos acompanhamentos, e uma calda", img: "https://images.unsplash.com/photo-1567206563064-6f60f40a2b57?w=500", 
+            id: 2, cat: 'sorvete', name: "Sorvete Prime", desc: "Dois sabores de sorvete, acompanhamentos e uma calda", img: "https://images.unsplash.com/photo-1567206563064-6f60f40a2b57?w=500", 
             options: [{s:"200ml", p:10}, {s:"300ml", p:12}, {s:"400ml", p:16}, {s:"500ml", p:20}, {s:"770ml", p:22}, {s:"1 Litro", p:31}] 
         },
         { 
-            id: 3, cat: 'casadinho', name: "Açaí com Sorvete", desc: "Um sabor de açaí e um sabor de sorvete, com a opção de escolher diversos acompanhamentos, e uma calda", img: "https://images.unsplash.com/photo-1580915411954-282cb1b0d780?w=500", 
+            id: 3, cat: 'casadinho', name: "Açaí com Sorvete", desc: "Um sabor de cada, acompanhamentos e uma calda", img: "https://images.unsplash.com/photo-1580915411954-282cb1b0d780?w=500", 
             options: [{s:"200ml", p:10}, {s:"300ml", p:12}, {s:"400ml", p:16}, {s:"500ml", p:18}, {s:"770ml", p:22}, {s:"1 Litro", p:31}] 
         },
         // PICOLÉS
-        { id: 4, cat: 'picole', name: "Picolé Leite Condensado", desc: "Saboroso e refrescante", img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=500", options: [{s:"Unidade", p:3.00}] },
-        { id: 5, cat: 'picole', name: "Picolé Milho Verde", desc: "Saboroso e refrescante", img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=500", options: [{s:"Unidade", p:3.00}] },
-        { id: 6, cat: 'picole', name: "Picolé de Coco", desc: "Saboroso e refrescante", img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=500", options: [{s:"Unidade", p:3.00}] },
-        { id: 7, cat: 'picole', name: "Picolé de Tapioca com Coco", desc: "Saboroso e refrescante", img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=500", options: [{s:"Unidade", p:3.00}] },
-        { id: 8, cat: 'picole', name: "Picolé de Manga", desc: "Saboroso e refrescante", img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=500", options: [{s:"Unidade", p:3.00}] },
-        { id: 9, cat: 'picole', name: "Picolé de Maracujá", desc: "Saboroso e refrescante", img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=500", options: [{s:"Unidade", p:3.00}] },
-        { id: 10, cat: 'picole', name: "Picolé de Uva", desc: "Saboroso e refrescante", img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=500", options: [{s:"Unidade", p:3.00}] },
-        { id: 11, cat: 'picole', name: "Picolé Brigadeiro Skimo", desc: "Cobertura crocante de chocolate", img: "https://images.unsplash.com/photo-1560008581-09826d1de69e?w=500", options: [{s:"Unidade", p:6.00}] },
-        { id: 12, cat: 'picole', name: "Picolé Chocolate Branco Skimo", desc: "Cobertura crocante de chocolate branco", img: "https://images.unsplash.com/photo-1560008581-09826d1de69e?w=500", options: [{s:"Unidade", p:6.00}] },
-        { id: 13, cat: 'picole', name: "Picolé Tapioca Recheado", desc: "Recheio cremoso de Leite Condensado", img: "https://images.unsplash.com/photo-1560008581-09826d1de69e?w=500", options: [{s:"Unidade", p:7.00}] },
-        { id: 14, cat: 'picole', name: "Picolé Maracujá Recheado", desc: "Recheio cremoso de Leite Condensado", img: "https://images.unsplash.com/photo-1560008581-09826d1de69e?w=500", options: [{s:"Unidade", p:7.00}] }
+        { id: 4, cat: 'picole', name: "Picolé Leite Condensado", desc: "Refrescante", img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=500", options: [{s:"Unidade", p:3.00}] },
+        { id: 5, cat: 'picole', name: "Picolé Milho Verde", desc: "Refrescante", img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=500", options: [{s:"Unidade", p:3.00}] },
+        { id: 6, cat: 'picole', name: "Picolé de Coco", desc: "Refrescante", img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=500", options: [{s:"Unidade", p:3.00}] },
+        { id: 7, cat: 'picole', name: "Picolé de Tapioca com Coco", desc: "Refrescante", img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=500", options: [{s:"Unidade", p:3.00}] },
+        { id: 8, cat: 'picole', name: "Picolé de Manga", desc: "Refrescante", img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=500", options: [{s:"Unidade", p:3.00}] },
+        { id: 9, cat: 'picole', name: "Picolé de Maracujá", desc: "Refrescante", img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=500", options: [{s:"Unidade", p:3.00}] },
+        { id: 10, cat: 'picole', name: "Picolé de Uva", desc: "Refrescante", img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=500", options: [{s:"Unidade", p:3.00}] },
+        { id: 11, cat: 'picole', name: "Picolé Brigadeiro Skimo", desc: "Cobertura de chocolate", img: "https://images.unsplash.com/photo-1560008581-09826d1de69e?w=500", options: [{s:"Unidade", p:6.00}] },
+        { id: 12, cat: 'picole', name: "Picolé Chocolate Branco Skimo", desc: "Cobertura branca", img: "https://images.unsplash.com/photo-1560008581-09826d1de69e?w=500", options: [{s:"Unidade", p:6.00}] },
+        { id: 13, cat: 'picole', name: "Picolé Tapioca Recheado", desc: "Recheio de Leite Condensado", img: "https://images.unsplash.com/photo-1560008581-09826d1de69e?w=500", options: [{s:"Unidade", p:7.00}] },
+        { id: 14, cat: 'picole', name: "Picolé Maracujá Recheado", desc: "Recheio de Leite Condensado", img: "https://images.unsplash.com/photo-1560008581-09826d1de69e?w=500", options: [{s:"Unidade", p:7.00}] },
+        
+        // BEBIDAS (NOVAS)
+        { id: 15, cat: 'bebida', name: "Água c/ Gás", desc: "500ml", img: "https://images.unsplash.com/photo-1559839914-17aae19cea9e?w=500", options: [{s:"Unidade", p:4.00}] },
+        { id: 16, cat: 'bebida', name: "Água s/ Gás", desc: "500ml", img: "https://images.unsplash.com/photo-1523362628242-f513a0052716?w=500", options: [{s:"Unidade", p:3.00}] },
+        { id: 17, cat: 'bebida', name: "Água c/ Gás 1,5L", desc: "Garrafa família", img: "https://images.unsplash.com/photo-1559839914-17aae19cea9e?w=500", options: [{s:"Unidade", p:5.00}] },
+        { id: 18, cat: 'bebida', name: "Coca Cola 600ml", desc: "Gelada", img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=500", options: [{s:"Unidade", p:8.00}] },
+        { id: 19, cat: 'bebida', name: "Coca Cola 2L", desc: "Gelada", img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=500", options: [{s:"Unidade", p:16.00}] },
+        { id: 20, cat: 'bebida', name: "Guaracamp", desc: "Copo tradicional", img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=500", options: [{s:"Unidade", p:2.00}] },
+        { id: 21, cat: 'bebida', name: "Coca Cola 320ml", desc: "Lata", img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=500", options: [{s:"Unidade", p:6.00}] },
+        { id: 22, cat: 'bebida', name: "Guaracamp 265ml", desc: "Garrafinha", img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=500", options: [{s:"Unidade", p:3.00}] },
+        { id: 23, cat: 'bebida', name: "Fanta Laranja 2L", desc: "Gelada", img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=500", options: [{s:"Unidade", p:16.00}] }
     ],
     config: {
         whatsApp: "5511999998888", 
@@ -48,9 +59,10 @@ function renderProducts(cat) {
     const filtered = cat === 'todos' ? DB.products : DB.products.filter(p => p.cat === cat);
     
     list.innerHTML = filtered.map(p => {
-        // Se for picolé, não precisa do select de tamanhos se só tiver uma opção
-        const hideSelect = p.cat === 'picole' ? 'display:none' : '';
-        const priceLabel = p.cat === 'picole' ? `R$ ${p.options[0].p.toFixed(2)}` : '';
+        // Se for picolé ou bebida, não mostra o select (pois só tem um tamanho/preço)
+        const isSingle = (p.cat === 'picole' || p.cat === 'bebida');
+        const hideSelect = isSingle ? 'display:none' : '';
+        const priceLabel = isSingle ? `R$ ${p.options[0].p.toFixed(2)}` : '';
 
         return `
         <div class="p-card" data-aos="fade-up">
@@ -77,7 +89,10 @@ function addItem(id) {
     const p = DB.products.find(i => i.id === id);
     const sel = document.getElementById(`size-${id}`);
     const price = parseFloat(sel.value);
-    const label = p.cat === 'picole' ? p.name : `${p.name} (${sel.options[sel.selectedIndex].text.split(' - ')[0]})`;
+    
+    // Lógica para nome no carrinho
+    const isSingle = (p.cat === 'picole' || p.cat === 'bebida');
+    const label = isSingle ? p.name : `${p.name} (${sel.options[sel.selectedIndex].text.split(' - ')[0]})`;
     
     CART.push({ name: label, price: price });
     updateCartUI();
