@@ -159,17 +159,72 @@ function updateCartUI() {
 function remove(i) { CART.splice(i, 1); updateCartUI(); }
 function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('active'); }
 
-function sendToWhatsApp() {
-    const b = document.getElementById('bairro-select').value;
-    const r = document.getElementById('end-rua').value;
-    const n = document.getElementById('end-numero').value;
-    if(b === "0" || !r || !n) return alert("Preencha o endereço completo!");
-    if(!CART.length) return alert("Carrinho vazio!");
-
-    let msg = `*NOVO PEDIDO - AÇAÍ PRIME*%0A%0A`;
-    CART.forEach(i => msg += `• ${i.name} - R$ ${i.price.toFixed(2)}%0A`);
-    msg += `%0A*TOTAL:* ${document.getElementById('cart-total').innerText}`;
-    msg += `%0A%0A*ENTREGA:* ${r}, ${n} - ${b}`;
+function updateCartUI() {
+    const flow = document.getElementById('cart-items-flow');
+    const bairro = document.getElementById('bairro-select').value;
+    const taxa = DB.config.taxas[bairro] || 0;
     
-    window.open(`https://wa.me/${DB.config.whatsApp}?text=${msg}`);
+    // Atualiza contador de itens no ícone
+    document.getElementById('cart-count').innerText = CART.length;
+
+    if (CART.length === 0) {
+        flow.innerHTML = '<p style="text-align:center; padding:20px; opacity:0.5;">Seu carrinho está vazio...</p>';
+    } else {
+        flow.innerHTML = CART.map((item, i) => `
+            <div class="cart-item">
+                <div style="flex:1">
+                    <p style="font-size:0.85rem; margin:0; font-weight:600;">${item.name}</p>
+                    <b>R$ ${item.price.toFixed(2)}</b>
+                </div>
+                <button onclick="removeItem(${i})" style="background:none; border:none; color:#ff4d4d; cursor:pointer; padding:5px;">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+        `).join('');
+    }
+
+    const subtotal = CART.reduce((acc, cur) => acc + cur.price, 0);
+    const total = subtotal + taxa;
+
+    document.getElementById('subtotal').innerText = `R$ ${subtotal.toFixed(2)}`;
+    document.getElementById('delivery-fee').innerText = `R$ ${taxa.toFixed(2)}`;
+    document.getElementById('cart-total').innerText = `R$ ${total.toFixed(2)}`;
+}
+
+function removeItem(index) {
+    CART.splice(index, 1);
+    updateCartUI();
+}
+
+function toggleCart() {
+    document.getElementById('cart-sidebar').classList.toggle('active');
+}
+
+function sendToWhatsApp() {
+    if (CART.length === 0) return alert("Seu carrinho está vazio!");
+    
+    const bairro = document.getElementById('bairro-select').value;
+    const rua = document.getElementById('end-rua').value;
+    const num = document.getElementById('end-numero').value;
+    const ref = document.getElementById('end-ref').value;
+
+    if (bairro === "0" || !rua || !num) {
+        return alert("Por favor, preencha o endereço completo!");
+    }
+
+    let mensagem = `*NOVO PEDIDO - AÇAÍ PRIME GOLD*%0A%0A`;
+    CART.forEach(item => {
+        mensagem += `• ${item.name} - R$ ${item.price.toFixed(2)}%0A`;
+    });
+
+    const subtotal = CART.reduce((acc, cur) => acc + cur.price, 0);
+    const taxa = DB.config.taxas[bairro] || 0;
+    
+    mensagem += `%0A*Subtotal:* R$ ${subtotal.toFixed(2)}`;
+    mensagem += `%0A*Entrega:* R$ ${taxa.toFixed(2)}`;
+    mensagem += `%0A*TOTAL:* R$ ${(subtotal + taxa).toFixed(2)}`;
+    mensagem += `%0A%0A*ENTREGA EM:*%0A${rua}, nº ${num}%0ABairro: ${bairro}%0ARef: ${ref}`;
+
+    const url = `https://api.whatsapp.com/send?phone=${DB.config.whatsApp}&text=${mensagem}`;
+    window.open(url, '_blank');
 }

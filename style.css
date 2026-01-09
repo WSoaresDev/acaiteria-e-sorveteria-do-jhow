@@ -103,3 +103,14 @@ header { background: rgba(45, 10, 49, 0.95); backdrop-filter: blur(10px); paddin
     .category-slider { top: 60px; }
     .cart-sidebar { width: 100%; max-width: 100%; }
 }
+
+/* Garante que o sidebar fique por cima de tudo */
+.cart-sidebar {
+    z-index: 9999;
+}
+
+/* Estilo para o botão de lixeira no carrinho */
+.cart-item button:hover {
+    color: #cc0000 !important;
+    transform: scale(1.1);
+}
