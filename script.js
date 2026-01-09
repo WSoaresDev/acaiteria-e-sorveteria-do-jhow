@@ -37,10 +37,10 @@ const DB = {
         { id: 23, cat: 'bebida', name: "Fanta Laranja 2L", desc: "Gelada", img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=500", options: [{s:"Unidade", p:16.00}] }
     ],
     config: {
-        whatsApp: "5511999998888", 
+        whatsApp: "5521968896846", 
         horarioAbertura: 11,
-        horarioFechamento: 23,
-        taxas: { "Nova Belém": 5.00, "Chacrinha": 7.00, "Beira Rio": 4.00, "0": 0 }
+        horarioFechamento: 22,
+        taxas: { "Nova Belém": 4.00, "Chacrinha": 5.00, "Beira Rio": 6.00, "0": 0 }
     }
 };
 
