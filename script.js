@@ -2,9 +2,9 @@ const DB = {
     products: [
         { id: 1, cat: 'acai', name: "Açaí Tradicional Prime", desc: "Açaí puro. Monte do seu jeito.", img: "https://images.unsplash.com/photo-1590301157890-4810ed352733?w=500", 
             options: [{s:"200ml", p:10}, {s:"300ml", p:12}, {s:"400ml", p:16}, {s:"500ml", p:18}, {s:"770ml", p:22}, {s:"1 Litro", p:31}] },
-        { id: 2, cat: 'sorvete', name: "Sorvete Prime", desc: "Diversos sabores cremosos.", img: "https://images.unsplash.com/photo-1567206563064-6f60f40a2b57?w=500", 
+        { id: 2, cat: 'sorvete', name: "Sorvete Prime", desc: "Cremoso. Escolha até 2 sabores.", img: "https://images.unsplash.com/photo-1567206563064-6f60f40a2b57?w=500", 
             options: [{s:"200ml", p:10}, {s:"300ml", p:12}, {s:"400ml", p:16}, {s:"500ml", p:20}, {s:"770ml", p:22}, {s:"1 Litro", p:31}] },
-        { id: 3, cat: 'casadinho', name: "Açaí com Sorvete", desc: "O mix perfeito de energia e cremosidade.", img: "https://images.unsplash.com/photo-1580915411954-282cb1b0d780?w=500", 
+        { id: 3, cat: 'casadinho', name: "Açaí com Sorvete", desc: "O mix perfeito (1 sabor de cada).", img: "https://images.unsplash.com/photo-1580915411954-282cb1b0d780?w=500", 
             options: [{s:"200ml", p:10}, {s:"300ml", p:12}, {s:"400ml", p:16}, {s:"500ml", p:18}, {s:"770ml", p:22}, {s:"1 Litro", p:31}] },
         { id: 4, cat: 'picole', name: "Picolé Leite Condensado", desc: "Refrescante", img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=500", options: [{s:"Unidade", p:3.00}] },
         { id: 5, cat: 'picole', name: "Picolé Milho Verde", desc: "Refrescante", img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=500", options: [{s:"Unidade", p:3.00}] },
@@ -15,7 +15,7 @@ const DB = {
         { id: 12, cat: 'bebida', name: "Guaracamp", desc: "Copo tradicional", img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=500", options: [{s:"Unidade", p:2.00}] }
     ],
     config: {
-        whatsApp: "5511999998888",
+        whatsApp: "5511999998888", 
         taxas: { "Nova Belém": 5.00, "Chacrinha": 7.00, "Beira Rio": 4.00, "0": 0 }
     }
 };
@@ -24,13 +24,17 @@ let CART = [];
 let tempItem = null;
 
 document.addEventListener('DOMContentLoaded', () => {
-    AOS.init();
+    if(typeof AOS !== 'undefined') AOS.init();
     renderProducts('todos');
-    setTimeout(() => { document.getElementById('loader').style.display = 'none'; }, 800);
+    setTimeout(() => { 
+        const loader = document.getElementById('loader');
+        if(loader) loader.style.display = 'none'; 
+    }, 800);
 });
 
 function renderProducts(cat) {
     const list = document.getElementById('product-list');
+    if(!list) return;
     const filtered = cat === 'todos' ? DB.products : DB.products.filter(p => p.cat === cat);
     list.innerHTML = filtered.map(p => {
         const isSingle = (p.cat === 'picole' || p.cat === 'bebida');
@@ -56,57 +60,73 @@ function initPersonalization(id) {
     const sel = document.getElementById(`size-${id}`);
     const price = parseFloat(sel.value);
     const sizeLabel = p.options.length > 1 ? sel.options[sel.selectedIndex].text.split(' - ')[0] : "";
+
     if(p.cat === 'picole' || p.cat === 'bebida') {
-        CART.push({ name: p.name, price: price });
+        CART.push({ name: `${p.name} (${sizeLabel || 'Unid'})`, price: price });
         updateCartUI();
         toggleCart();
         return;
     }
+
     tempItem = { name: p.name, size: sizeLabel, price: price, cat: p.cat };
+    
+    document.querySelectorAll('input[type="checkbox"]').forEach(c => { c.checked = false; c.disabled = false; });
+
+    // REGRAS DE LIMITES
+    const srvLimit = (p.cat === 'sorvete') ? 2 : 1;
+    
+    // Atualiza labels visuais
+    const labelAcai = document.querySelector('#step-sabores-acai label');
+    const labelSorvete = document.querySelector('#step-sabores-sorvete label');
+    if(labelAcai) labelAcai.innerHTML = `<span class="numb">1</span> Sabor de Açaí (Escolha 1)`;
+    if(labelSorvete) labelSorvete.innerHTML = `<span class="numb">2</span> Sabores de Sorvete (Até ${srvLimit})`;
+
+    // Aplica os limites nos cliques
+    document.querySelectorAll('.extra-sabor-acai').forEach(el => el.onchange = () => limitChecks('extra-sabor-acai', 1));
+    document.querySelectorAll('.extra-sabor-sorvete').forEach(el => el.onchange = () => limitChecks('extra-sabor-sorvete', srvLimit));
+    document.querySelectorAll('.extra-free').forEach(el => el.onchange = () => limitChecks('extra-free', 5));
+    document.querySelectorAll('.extra-calda').forEach(el => el.onchange = () => limitChecks('extra-calda', 1));
+
     document.getElementById('selected-product-name').innerText = `${p.name} ${sizeLabel}`;
     document.getElementById('monte-seu').style.display = 'block';
     document.getElementById('step-sabores-acai').style.display = (p.cat === 'acai' || p.cat === 'casadinho') ? 'block' : 'none';
     document.getElementById('step-sabores-sorvete').style.display = (p.cat === 'sorvete' || p.cat === 'casadinho') ? 'block' : 'none';
+    
     document.getElementById('monte-seu').scrollIntoView({ behavior: 'smooth' });
-}
-
-function confirmChefItem(finishOrder) {
-    let saboresAcai = [];
-    document.querySelectorAll('.extra-sabor-acai:checked').forEach(e => saboresAcai.push(e.value));
-    let saboresSorvete = [];
-    document.querySelectorAll('.extra-sabor-sorvete:checked').forEach(e => saboresSorvete.push(e.value));
-    let extras = [];
-    document.querySelectorAll('.extra-free:checked').forEach(e => extras.push(e.value));
-    let frutas = [];
-    document.querySelectorAll('.extra-fruta:checked').forEach(e => frutas.push(e.value));
-    let caldas = [];
-    document.querySelectorAll('.extra-calda:checked').forEach(e => caldas.push(e.value));
-
-    if((tempItem.cat === 'acai' || tempItem.cat === 'casadinho') && saboresAcai.length === 0) return alert("Escolha o sabor do Açaí!");
-    if((tempItem.cat === 'sorvete' || tempItem.cat === 'casadinho') && saboresSorvete.length === 0) return alert("Escolha o sabor do Sorvete!");
-
-    let finalDesc = `${tempItem.name} (${tempItem.size})`;
-    if(saboresAcai.length > 0) finalDesc += ` | Açaí: ${saboresAcai.join(',')}`;
-    if(saboresSorvete.length > 0) finalDesc += ` | Sorvete: ${saboresSorvete.join(',')}`;
-    if(extras.length > 0) finalDesc += ` | Extras: ${extras.join(',')}`;
-    if(frutas.length > 0) finalDesc += ` | Frutas: ${frutas.join(',')}`;
-    if(caldas.length > 0) finalDesc += ` | Calda: ${caldas.join(',')}`;
-
-    CART.push({ name: finalDesc, price: tempItem.price });
-    updateCartUI();
-    cancelSelection();
-    if(finishOrder) { toggleCart(); } else { document.getElementById('cardapio').scrollIntoView({ behavior: 'smooth' }); }
-}
-
-function cancelSelection() {
-    document.getElementById('monte-seu').style.display = 'none';
-    document.querySelectorAll('input[type="checkbox"]').forEach(c => { c.checked = false; c.disabled = false; });
-    tempItem = null;
 }
 
 function limitChecks(className, limit) {
     const checked = document.querySelectorAll(`.${className}:checked`);
-    document.querySelectorAll(`.${className}`).forEach(c => { c.disabled = (!c.checked && checked.length >= limit); });
+    document.querySelectorAll(`.${className}`).forEach(c => {
+        c.disabled = (!c.checked && checked.length >= limit);
+    });
+}
+
+function confirmChefItem(finishOrder) {
+    let acai = []; document.querySelectorAll('.extra-sabor-acai:checked').forEach(e => acai.push(e.value));
+    let sorvete = []; document.querySelectorAll('.extra-sabor-sorvete:checked').forEach(e => sorvete.push(e.value));
+    let extras = []; document.querySelectorAll('.extra-free:checked').forEach(e => extras.push(e.value));
+    let caldas = []; document.querySelectorAll('.extra-calda:checked').forEach(e => caldas.push(e.value));
+
+    if((tempItem.cat === 'acai' || tempItem.cat === 'casadinho') && acai.length === 0) return alert("Escolha o Açaí!");
+    if((tempItem.cat === 'sorvete' || tempItem.cat === 'casadinho') && sorvete.length === 0) return alert("Escolha o Sorvete!");
+    if(extras.length === 0) return alert("Escolha pelo menos 1 acompanhamento!");
+
+    let desc = `${tempItem.name} (${tempItem.size})`;
+    if(acai.length) desc += ` | Açaí: ${acai.join(',')}`;
+    if(sorvete.length) desc += ` | Sorvete: ${sorvete.join(',')}`;
+    if(extras.length) desc += ` | Acomp: ${extras.join(',')}`;
+    if(caldas.length) desc += ` | Calda: ${caldas.join(',')}`;
+
+    CART.push({ name: desc, price: tempItem.price });
+    updateCartUI();
+    cancelSelection();
+    if(finishOrder) toggleCart();
+}
+
+function cancelSelection() {
+    document.getElementById('monte-seu').style.display = 'none';
+    tempItem = null;
 }
 
 function filterMenu(cat, el) {
@@ -119,14 +139,16 @@ function updateCartUI() {
     const flow = document.getElementById('cart-items-flow');
     const bairro = document.getElementById('bairro-select').value;
     const taxa = DB.config.taxas[bairro] || 0;
+    
     flow.innerHTML = CART.map((item, i) => `
-        <div class="cart-item" style="border-bottom:1px solid #eee; padding:10px 0;">
-            <div style="font-size:0.8rem; line-height:1.2;">${item.name}</div>
-            <div style="display:flex; justify-content:space-between; font-weight:bold; margin-top:5px;">
-                <span>R$ ${item.price.toFixed(2)}</span>
-                <span onclick="remove(${i})" style="color:red; cursor:pointer;"><i class="fas fa-trash"></i></span>
+        <div class="cart-item">
+            <p style="font-size:0.85rem; margin:0;">${item.name}</p>
+            <div style="display:flex; justify-content:space-between;">
+                <b>R$ ${item.price.toFixed(2)}</b>
+                <button onclick="remove(${i})" style="border:none; background:none; color:red; cursor:pointer;"><i class="fas fa-trash"></i></button>
             </div>
-        </div>`).join('');
+        </div><hr>`).join('');
+
     const sub = CART.reduce((a, b) => a + b.price, 0);
     document.getElementById('subtotal').innerText = `R$ ${sub.toFixed(2)}`;
     document.getElementById('delivery-fee').innerText = `R$ ${taxa.toFixed(2)}`;
@@ -138,26 +160,16 @@ function remove(i) { CART.splice(i, 1); updateCartUI(); }
 function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('active'); }
 
 function sendToWhatsApp() {
-    const bairro = document.getElementById('bairro-select').value;
-    const rua = document.getElementById('end-rua').value;
-    const numero = document.getElementById('end-numero').value;
-    const ref = document.getElementById('end-ref').value;
-    
-    if(bairro === "0") return alert("Por favor, selecione o bairro!");
-    if(rua.trim() === "") return alert("Por favor, digite o nome da rua!");
-    if(numero.trim() === "") return alert("Por favor, digite o número da casa!");
-    if(CART.length === 0) return alert("Seu carrinho está vazio!");
+    const b = document.getElementById('bairro-select').value;
+    const r = document.getElementById('end-rua').value;
+    const n = document.getElementById('end-numero').value;
+    if(b === "0" || !r || !n) return alert("Preencha o endereço completo!");
+    if(!CART.length) return alert("Carrinho vazio!");
 
     let msg = `*NOVO PEDIDO - AÇAÍ PRIME*%0A%0A`;
     CART.forEach(i => msg += `• ${i.name} - R$ ${i.price.toFixed(2)}%0A`);
-    msg += `%0A*Subtotal:* ${document.getElementById('subtotal').innerText}`;
-    msg += `%0A*Entrega:* ${document.getElementById('delivery-fee').innerText}`;
     msg += `%0A*TOTAL:* ${document.getElementById('cart-total').innerText}`;
-    msg += `%0A%0A*ENDEREÇO DE ENTREGA:*`;
-    msg += `%0A*Bairro:* ${bairro}`;
-    msg += `%0A*Rua:* ${rua}`;
-    msg += `%0A*Número:* ${numero}`;
-    if(ref) msg += `%0A*Ponto de Referência:* ${ref}`;
-
+    msg += `%0A%0A*ENTREGA:* ${r}, ${n} - ${b}`;
+    
     window.open(`https://wa.me/${DB.config.whatsApp}?text=${msg}`);
 }
