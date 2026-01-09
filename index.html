@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Açaí Prime Gold | O Melhor Delivery da Região</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+<body>
+
+    <div id="loader" class="loader-wrapper">
+        <div class="loader"></div>
+        <p>Preparando sua energia...</p>
+    </div>
+
+    <div class="top-bar">
+        <div class="container">
+            <span id="status-loja"><i class="fas fa-circle"></i> Verificando...</span>
+            <span><i class="fas fa-motorcycle"></i> Entrega grátis acima de R$ 50</span>
+        </div>
+    </div>
+
+    <header id="main-header">
+        <div class="container header-flex">
+            <div class="logo">Açaí<span>Prime</span></div>
+            <div class="header-actions">
+                <button class="search-btn"><i class="fas fa-search"></i></button>
+                <div class="cart-trigger" onclick="toggleCart()">
+                    <i class="fas fa-shopping-basket"></i>
+                    <span id="cart-count">0</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero-premium">
+        <div class="hero-content" data-aos="fade-up">
+            <span class="tag">O MELHOR DO ESTADO</span>
+            <h1>Energia Pura, <br>Sabor Inesquecível.</h1>
+            <p>O açaí que você ama, com a qualidade que você merece. Ingredientes selecionados e entrega ultra rápida.</p>
+            <div class="hero-actions">
+                <a href="#cardapio" class="btn-main">Pedir Agora</a>
+                <a href="#monte-seu" class="btn-outline">Personalizar</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="category-slider">
+        <div class="container">
+            <div class="filter-wrapper">
+                <div class="filter-item active" onclick="filterMenu('todos', this)">
+                    <i class="fas fa-border-all"></i><span>Todos</span>
+                </div>
+                <div class="filter-item" onclick="filterMenu('acai', this)">
+                    <i class="fas fa-bowl-food"></i><span>Açaí</span>
+                </div>
+                <div class="filter-item" onclick="filterMenu('casadinho', this)">
+                    <i class="fas fa-layer-group"></i><span>Casadinhos</span>
+                </div>
+                <div class="filter-item" onclick="filterMenu('sorvete', this)">
+                    <i class="fas fa-ice-cream"></i><span>Sorvetes</span>
+                </div>
+                <div class="filter-item" onclick="filterMenu('bebidas', this)">
+                    <i class="fas fa-glass-water"></i><span>Bebidas</span>
+                </div>
+                <div class="filter-item" onclick="filterMenu('promocao', this)">
+                    <i class="fas fa-percentage"></i><span>Combos</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="container" id="cardapio">
+        <div class="section-header">
+            <h2>Nosso Cardápio</h2>
+            <p>Selecione seu favorito e escolha o tamanho ideal</p>
+        </div>
+        
+        <div id="product-list" class="product-grid">
+            </div>
+    </main>
+
+    <section id="monte-seu" class="builder-section">
+        <div class="container">
+            <div class="builder-card-premium" data-aos="zoom-in">
+                <div class="builder-header">
+                    <h3><i class="fas fa-magic"></i> Chef do Açaí</h3>
+                    <p>Monte sua combinação exclusiva</p>
+                </div>
+                
+                <div class="builder-body">
+                    <div class="step">
+                        <label><span class="numb">1</span> Escolha a Base</label>
+                        <select id="custom-base" class="premium-select">
+                            <option value="16.00">Copo 300ml - R$ 16,00</option>
+                            <option value="24.00" selected>Copo 500ml - R$ 24,00</option>
+                            <option value="32.00">Copo 700ml - R$ 32,00</option>
+                            <option value="48.00">Barca Master - R$ 48,00</option>
+                        </select>
+                    </div>
+
+                    <div class="step">
+                        <label><span class="numb">2</span> Acompanhamentos Grátis (Até 3)</label>
+                        <div class="checkbox-grid">
+                            <label class="check-container">Banana <input type="checkbox" class="extra-free" value="Banana"><span class="checkmark"></span></label>
+                            <label class="check-container">Granola <input type="checkbox" class="extra-free" value="Granola"><span class="checkmark"></span></label>
+                            <label class="check-container">Leite em Pó <input type="checkbox" class="extra-free" value="Leite Pó"><span class="checkmark"></span></label>
+                            <label class="check-container">Leite Cond. <input type="checkbox" class="extra-free" value="Leite Cond."><span class="checkmark"></span></label>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <label><span class="numb">3</span> Toppings Premium (+ R$ 3,50)</label>
+                        <div class="checkbox-grid">
+                            <label class="check-container">Nutella <input type="checkbox" class="extra-paid" value="Nutella"><span class="checkmark"></span></label>
+                            <label class="check-container">Morango <input type="checkbox" class="extra-paid" value="Morango"><span class="checkmark"></span></label>
+                            <label class="check-container">M&Ms <input type="checkbox" class="extra-paid" value="M&Ms"><span class="checkmark"></span></label>
+                            <label class="check-container">Ouro Branco <input type="checkbox" class="extra-paid" value="Ouro Branco"><span class="checkmark"></span></label>
+                        </div>
+                    </div>
+                    
+                    <button class="btn-build" onclick="addChefCombination()">
+                        Adicionar ao Pedido <span id="temp-price">R$ 24,00</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials">
+        <div class="container">
+            <h3 class="section-title">Quem provou, amou!</h3>
+            <div class="testimonial-slider">
+                <div class="testi-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"O melhor açaí que já comi! A entrega foi super rápida e chegou geladinho."</p>
+                    <div class="user">- Mariana Silva</div>
+                </div>
+                <div class="testi-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"A Nutella vem de verdade, não economizam nos adicionais. Nota 10!"</p>
+                    <div class="user">- Ricardo Souza</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq">
+        <div class="container">
+            <h3>Dúvidas Frequentes</h3>
+            <div class="faq-item">
+                <div class="faq-question">Quais as formas de pagamento? <i class="fas fa-chevron-down"></i></div>
+                <div class="faq-answer">Aceitamos PIX, Cartões de Crédito e Débito na entrega.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Quanto tempo demora a entrega? <i class="fas fa-chevron-down"></i></div>
+                <div class="faq-answer">Nosso tempo médio é de 25 a 45 minutos dependendo da sua região.</div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="f-col">
+                    <div class="logo">Açaí<span>Prime</span></div>
+                    <p>Qualidade premium em cada colherada. Sua dose diária de energia e saúde.</p>
+                </div>
+                <div class="f-col">
+                    <h4>Navegação</h4>
+                    <ul>
+                        <li><a href="#">Início</a></li>
+                        <li><a href="#cardapio">Cardápio</a></li>
+                        <li><a href="#monte-seu">Monte o Seu</a></li>
+                    </ul>
+                </div>
+                <div class="f-col">
+                    <h4>Contato</h4>
+                    <p><i class="fab fa-whatsapp"></i> (11) 99999-8888</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Av. das Frutas, 1000 - SP</p>
+                </div>
+            </div>
+            
+            <div class="newsletter">
+                <h4>Receba Promoções</h4>
+                <div class="news-form">
+                    <input type="email" placeholder="Seu melhor e-mail">
+                    <button>Assinar</button>
+                </div>
+            </div>
+        </div>
+        <div class="copy-bar">
+            <p>&copy; 2026 Açaí Prime Gold - Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <div class="mobile-nav">
+        <a href="#home" class="m-nav-item active"><i class="fas fa-home"></i><span>Home</span></a>
+        <a href="#cardapio" class="m-nav-item"><i class="fas fa-search"></i><span>Cardápio</span></a>
+        <a href="#monte-seu" class="m-nav-item"><i class="fas fa-plus-circle"></i><span>Montar</span></a>
+        <a href="javascript:void(0)" onclick="toggleCart()" class="m-nav-item"><i class="fas fa-shopping-cart"></i><span>Carrinho</span></a>
+    </div>
+
+    <div id="cart-sidebar" class="cart-sidebar">
+        <div class="cart-header">
+            <h3>Seu Pedido</h3>
+            <span onclick="toggleCart()"><i class="fas fa-times"></i></span>
+        </div>
+        <div id="cart-items-flow" class="cart-items">
+            </div>
+        <div class="cart-summary">
+            <div class="summary-line"><span>Subtotal</span> <span id="subtotal">R$ 0,00</span></div>
+            <div class="summary-line"><span>Taxa de Entrega</span> <span id="delivery-fee">R$ 5,00</span></div>
+            <div class="summary-line total"><span>Total</span> <span id="cart-total">R$ 5,00</span></div>
+            
+            <div class="payment-methods">
+                <label>Forma de Pagamento:</label>
+                <select id="payment-method">
+                    <option value="Dinheiro">Dinheiro</option>
+                    <option value="PIX">PIX</option>
+                    <option value="Cartão (Entrega)">Cartão (Na entrega)</option>
+                </select>
+            </div>
+            
+            <button class="btn-checkout" onclick="sendToWhatsApp()">
+                Confirmar via WhatsApp <i class="fab fa-whatsapp"></i>
+            </button>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
