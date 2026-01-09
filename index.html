@@ -49,6 +49,7 @@
             <div class="filter-wrapper">
                 <div class="filter-item active" onclick="filterMenu('todos', this)"><span>Todos</span></div>
                 <div class="filter-item" onclick="filterMenu('acai', this)"><span>Açaí</span></div>
+                <div class="filter-item" onclick="filterMenu('sorvete', this)"><span>Sorvetes</span></div>
             </div>
         </div>
     </section>
@@ -56,7 +57,7 @@
     <main class="container" id="cardapio">
         <div class="section-header">
             <h2>Nosso Cardápio</h2>
-            <p>Escolha o tamanho ideal do seu Açaí</p>
+            <p>Escolha o seu sabor e tamanho ideal</p>
         </div>
         <div id="product-list" class="product-grid"></div>
     </main>
@@ -65,19 +66,29 @@
         <div class="container">
             <div class="builder-card-premium" data-aos="zoom-in">
                 <div class="builder-header">
-                    <h3><i class="fas fa-magic"></i> Chef do Açaí</h3>
+                    <h3><i class="fas fa-magic"></i> Chef do Açaí/Sorvete</h3>
                     <p>Monte sua combinação (Máximo 3 acompanhamentos grátis)</p>
                 </div>
                 <div class="builder-body">
                     <div class="step">
-                        <label><span class="numb">1</span> Escolha o Copo</label>
+                        <label><span class="numb">1</span> Escolha a Base e Tamanho</label>
                         <select id="custom-base" class="premium-select">
-                            <option value="10.00">Açaí copo de 200ml - R$ 10,00</option>
-                            <option value="12.00">Açaí copo de 300ml - R$ 12,00</option>
-                            <option value="16.00">Açaí copo de 400ml - R$ 16,00</option>
-                            <option value="18.00" selected>Açaí copo de 500ml - R$ 18,00</option>
-                            <option value="22.00">Açaí copo de 770ml - R$ 22,00</option>
-                            <option value="31.00">Açaí de 1L - R$ 31,00</option>
+                            <optgroup label="Açaí">
+                                <option value="10.00">Açaí 200ml - R$ 10,00</option>
+                                <option value="12.00">Açaí 300ml - R$ 12,00</option>
+                                <option value="16.00">Açaí 400ml - R$ 16,00</option>
+                                <option value="18.00">Açaí 500ml - R$ 18,00</option>
+                                <option value="22.00">Açaí 770ml - R$ 22,00</option>
+                                <option value="31.00">Açaí 1 Litro - R$ 31,00</option>
+                            </optgroup>
+                            <optgroup label="Sorvete">
+                                <option value="10.00">Sorvete 200ml - R$ 10,00</option>
+                                <option value="12.00">Sorvete 300ml - R$ 12,00</option>
+                                <option value="16.00">Sorvete 400ml - R$ 16,00</option>
+                                <option value="20.00">Sorvete 500ml - R$ 20,00</option>
+                                <option value="22.00">Sorvete 770ml - R$ 22,00</option>
+                                <option value="31.00">Sorvete 1 Litro - R$ 31,00</option>
+                            </optgroup>
                         </select>
                     </div>
                     <div class="step">
@@ -119,7 +130,7 @@
             <div class="summary-line"><span>Subtotal</span> <span id="subtotal">R$ 0,00</span></div>
             <div class="summary-line"><span>Entrega</span> <span id="delivery-fee">R$ 0,00</span></div>
             <div class="summary-line total"><span>Total</span> <span id="cart-total">R$ 0,00</span></div>
-            <button class="btn-checkout" onclick="sendToWhatsApp()">Confirmar via WhatsApp <i class="fab fa-whatsapp"></i></button>
+            <button class="btn-checkout" onclick="sendToWhatsApp()">Confirmar WhatsApp <i class="fab fa-whatsapp"></i></button>
         </div>
     </div>
 

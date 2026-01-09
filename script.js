@@ -14,10 +14,25 @@ const DB = {
                 {s:"770ml", p:22.00}, 
                 {s:"1 Litro", p:31.00}
             ] 
+        },
+        { 
+            id: 2, 
+            cat: 'sorvete', 
+            name: "Sorvete Prime", 
+            desc: "Dois sabores de sorvete, com a opção de escolher diversos acompanhamentos, e uma calda", 
+            img: "https://images.unsplash.com/photo-1567206563064-6f60f40a2b57?w=500", 
+            options: [
+                {s:"200ml", p:10.00}, 
+                {s:"300ml", p:12.00}, 
+                {s:"400ml", p:16.00}, 
+                {s:"500ml", p:20.00}, 
+                {s:"770ml", p:22.00}, 
+                {s:"1 Litro", p:31.00}
+            ] 
         }
     ],
     config: {
-        whatsApp: "5511999998888", // COLOQUE SEU NUMERO AQUI
+        whatsApp: "5511999998888", // TROQUE PELO SEU NÚMERO
         horarioAbertura: 11,
         horarioFechamento: 23,
         taxas: { "Nova Belém": 5.00, "Chacrinha": 7.00, "Beira Rio": 4.00, "0": 0 }
@@ -52,6 +67,12 @@ function renderProducts(cat) {
     `).join('');
 }
 
+function filterMenu(cat, el) {
+    document.querySelectorAll('.filter-item').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+    renderProducts(cat);
+}
+
 function addItem(id) {
     const p = DB.products.find(i => i.id === id);
     const sel = document.getElementById(`size-${id}`);
@@ -68,19 +89,19 @@ function limitCheckboxes() {
 function addChefCombination() {
     const base = document.getElementById('custom-base');
     const price = parseFloat(base.value);
-    const size = base.options[base.selectedIndex].text.split(' - ')[0];
+    const label = base.options[base.selectedIndex].text.split(' - ')[0];
     let extras = [];
     document.querySelectorAll('.extra-free:checked').forEach(e => extras.push(e.value));
-    CART.push({ name: `Chef: ${size} (${extras.join(', ')})`, price });
+    CART.push({ name: `Chef: ${label} (${extras.join(', ')})`, price });
     updateCartUI();
-    alert("Montagem adicionada!");
+    alert("Montagem adicionada ao carrinho!");
 }
 
 function applyCoupon() {
     const code = document.getElementById('coupon-input').value.toUpperCase();
     if(code === "PRIME10") {
         discountFactor = 0.10;
-        alert("Cupom PRIME10 aplicado (10% de desconto)");
+        alert("Cupom aplicado!");
     } else {
         discountFactor = 0;
         alert("Cupom inválido");
@@ -124,14 +145,12 @@ function checkLojaStatus() {
 
 function sendToWhatsApp() {
     const bairro = document.getElementById('bairro-select').value;
-    if(bairro === "0") return alert("Por favor, selecione o bairro para entrega.");
-    if(CART.length === 0) return alert("Seu carrinho está vazio.");
+    if(bairro === "0") return alert("Escolha o bairro!");
+    if(CART.length === 0) return alert("Carrinho vazio!");
 
     let msg = `*NOVO PEDIDO - AÇAÍ PRIME*%0A%0A`;
     CART.forEach(i => msg += `• ${i.name} - R$ ${i.price.toFixed(2)}%0A`);
-    msg += `%0A*Subtotal:* ${document.getElementById('subtotal').innerText}`;
     msg += `%0A*Bairro:* ${bairro}`;
-    msg += `%0A*Entrega:* ${document.getElementById('delivery-fee').innerText}`;
     msg += `%0A*TOTAL:* ${document.getElementById('cart-total').innerText}`;
     window.open(`https://wa.me/${DB.config.whatsApp}?text=${msg}`);
 }
