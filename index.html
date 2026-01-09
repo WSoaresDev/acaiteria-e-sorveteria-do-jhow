@@ -3,23 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Açaí Prime Gold | O Melhor Delivery da Região</title>
+    <title>Açaí Prime Gold | O Melhor Delivery</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&family=Pacifico&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        /* Estilos para os botões redimensionados e campos de endereço */
+        .builder-actions { 
+            display: flex; 
+            gap: 8px; 
+            margin-top: 20px; 
+            justify-content: center; 
+            flex-wrap: wrap; 
+        }
+        .btn-sm { 
+            padding: 10px 12px; 
+            font-size: 0.85rem; 
+            border-radius: 8px; 
+            border: none; 
+            cursor: pointer; 
+            font-weight: bold; 
+            transition: 0.3s; 
+            flex: 1; 
+            min-width: 100px; 
+            max-width: 150px; 
+        }
+        .btn-cancel { background: #e74c3c; color: white; }
+        .btn-continue { background: #3498db; color: white; }
+        .btn-finish { background: #27ae60; color: white; }
+        
+        .address-fields { 
+            margin-top: 15px; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 8px; 
+        }
+        .premium-input { 
+            padding: 10px; 
+            border: 1px solid #ddd; 
+            border-radius: 5px; 
+            width: 100%; 
+            font-family: 'Montserrat', sans-serif; 
+            box-sizing: border-box; 
+        }
+        
+        /* Grid de checkboxes para caber muitos sabores */
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
 
     <div id="loader" class="loader-wrapper">
         <div class="loader"></div>
         <p>Preparando sua energia...</p>
-    </div>
-
-    <div class="top-bar">
-        <div class="container">
-            <span id="status-loja"><i class="fas fa-circle"></i> Verificando...</span>
-        </div>
     </div>
 
     <header id="main-header">
@@ -34,23 +76,13 @@
         </div>
     </header>
 
-    <section class="hero-premium">
-        <div class="hero-content" data-aos="fade-up">
-            <span class="tag">O MELHOR DO ESTADO</span>
-            <h1>Energia Pura, <br>Sabor Inesquecível.</h1>
-            <div class="hero-actions">
-                <a href="#cardapio" class="btn-main">Pedir Agora</a>
-            </div>
-        </div>
-    </section>
-
     <section class="category-slider">
         <div class="container">
             <div class="filter-wrapper">
                 <div class="filter-item active" onclick="filterMenu('todos', this)"><span>Todos</span></div>
                 <div class="filter-item" onclick="filterMenu('acai', this)"><span>Açaí</span></div>
                 <div class="filter-item" onclick="filterMenu('sorvete', this)"><span>Sorvetes</span></div>
-                <div class="filter-item" onclick="filterMenu('casadinho', this)"><span>Açaí c/ Sorvete</span></div>
+                <div class="filter-item" onclick="filterMenu('casadinho', this)"><span>Misto</span></div>
                 <div class="filter-item" onclick="filterMenu('picole', this)"><span>Picolés</span></div>
                 <div class="filter-item" onclick="filterMenu('bebida', this)"><span>Bebidas</span></div>
             </div>
@@ -58,38 +90,54 @@
     </section>
 
     <main class="container" id="cardapio">
-        <div class="section-header">
-            <h2>Nosso Cardápio</h2>
-            <p>Escolha o seu preferido para personalizar</p>
-        </div>
         <div id="product-list" class="product-grid"></div>
     </main>
 
-    <section id="monte-seu" class="builder-section" style="display: none;">
+    <section id="monte-seu" class="builder-section" style="display: none; padding-bottom: 50px;">
         <div class="container">
             <div class="builder-card-premium" data-aos="zoom-in">
                 <div class="builder-header">
-                    <h3><i class="fas fa-utensils"></i> Personalize seu <span id="selected-product-name">...</span></h3>
-                    <p>Complete seu pedido abaixo:</p>
+                    <h3><i class="fas fa-utensils"></i> <span id="selected-product-name">Personalizar</span></h3>
+                    <p>Escolha seus itens favoritos abaixo:</p>
                 </div>
                 <div class="builder-body">
                     
                     <div class="step" id="step-sabores-acai">
-                        <label><span class="numb">1</span> Sabores de Açaí (Até 2)</label>
+                        <label><span class="numb">1</span> Sabores de Açaí (Escolha até 2)</label>
                         <div class="checkbox-grid">
-                            <label class="check-container">Açaí Tradicional <input type="checkbox" class="extra-sabor-acai" value="Açaí Tradicional" onchange="limitChecks('extra-sabor-acai', 2)"></label>
-                            <label class="check-container">Açaí Trufado <input type="checkbox" class="extra-sabor-acai" value="Açaí Trufado" onchange="limitChecks('extra-sabor-acai', 2)"></label>
-                            <label class="check-container">Açaí c/ Ninho <input type="checkbox" class="extra-sabor-acai" value="Açaí c/ Ninho" onchange="limitChecks('extra-sabor-acai', 2)"></label>
+                            <label class="check-container">Açaí de Banana <input type="checkbox" class="extra-sabor-acai" value="Açaí de Banana" onchange="limitChecks('extra-sabor-acai', 2)"></label>
+                            <label class="check-container">Açaí de Cupuaçu <input type="checkbox" class="extra-sabor-acai" value="Açaí de Cupuaçu" onchange="limitChecks('extra-sabor-acai', 2)"></label>
+                            <label class="check-container">Açaí de Maracujá <input type="checkbox" class="extra-sabor-acai" value="Açaí de Maracujá" onchange="limitChecks('extra-sabor-acai', 2)"></label>
+                            <label class="check-container">Açaí de Morango <input type="checkbox" class="extra-sabor-acai" value="Açaí de Morango" onchange="limitChecks('extra-sabor-acai', 2)"></label>
+                            <label class="check-container">Açaí Natural <input type="checkbox" class="extra-sabor-acai" value="Açaí Natural" onchange="limitChecks('extra-sabor-acai', 2)"></label>
                         </div>
                     </div>
 
                     <div class="step" id="step-sabores-sorvete">
-                        <label><span class="numb">2</span> Sabores de Sorvete (Até 2)</label>
+                        <label><span class="numb">2</span> Sabores de Sorvete (Escolha até 2)</label>
                         <div class="checkbox-grid">
-                            <label class="check-container">Morango <input type="checkbox" class="extra-sabor-sorvete" value="Sorvete Morango" onchange="limitChecks('extra-sabor-sorvete', 2)"></label>
-                            <label class="check-container">Chocolate <input type="checkbox" class="extra-sabor-sorvete" value="Sorvete Chocolate" onchange="limitChecks('extra-sabor-sorvete', 2)"></label>
-                            <label class="check-container">Creme <input type="checkbox" class="extra-sabor-sorvete" value="Sorvete Creme" onchange="limitChecks('extra-sabor-sorvete', 2)"></label>
-                            <label class="check-container">Flocos <input type="checkbox" class="extra-sabor-sorvete" value="Sorvete Flocos" onchange="limitChecks('extra-sabor-sorvete', 2)"></label>
+                            <label class="check-container">Abacaxi <input type="checkbox" class="extra-sabor-sorvete" value="Sorvete de Abacaxi" onchange="limitChecks('extra-sabor-sorvete', 2)"></label>
+                            <label class="check-container">Blue Ice <input type="checkbox" class="extra-sabor-sorvete" value="Sorvete de Blue Ice" onchange="limitChecks('extra-sabor-sorvete', 2)"></label>
+                            <label class="check-container">Banana c/ Nutella <input type="checkbox" class="extra-sabor-sorvete" value="Sorvete de Banana c/ Nutella" onchange="limitChecks('extra-sabor-sorvete', 2)"></label>
+                            <label class="check-container">Bombom c/ Morango <input type="checkbox" class="extra-sabor-sorvete" value="Sorvete de Bombom c/ Morango" onchange="limitChecks('extra-sabor-sorvete', 2)"></label>
+                            <label class="check-container">Cocada <input type="checkbox" class="extra-sabor-sorvete" value="Sorvete de cocada" onchange="limitChecks('extra-sabor-sorvete', 2)"></label>
+                            <label class="check-container">Chocolate Alpino <input type="checkbox" class="extra-sabor-sorvete" value="Sorvete de Chocolate Alpino" onchange="limitChecks('extra-sabor-sorvete', 2)"></label>
+                            <label class="check-container">Flocos <input type="checkbox" class="extra-sabor-sorvete" value="Sorvete de Flocos" onchange="limitChecks('extra-sabor-sorvete', 2)"></label>
+                            <label class="check-container">Kinder Ovo <input type="checkbox" class="extra-sabor-sorvete" value="Sorvete de kinder Ovo" onchange="limitChecks('extra-sabor-sorvete', 2)"></label>
+                            <label class="check-container">Milho Verde <input type="checkbox" class="extra-sabor-sorvete" value="Sorvete de Milho Verde" onchange="limitChecks('extra-sabor-sorvete', 2)"></label>
+                            <label class="check-container">Passas ao Rum <input type="checkbox" class="extra-sabor-sorvete" value="Sorvete de Passas ao Rum" onchange="limitChecks('extra-sabor-sorvete', 2)"></label>
+                            <label class="check-container">Menta c/ Choc. <input type="checkbox" class="extra-sabor-sorvete" value="Sorvete de Menta com Chocolate" onchange="limitChecks('extra-sabor-sorvete', 2)"></label>
+                            <label class="check-container">Capuccino <input type="checkbox" class="extra-sabor-sorvete" value="Sorvete de Capuccino" onchange="limitChecks('extra-sabor-sorvete', 2)"></label>
+                            <label class="check-container">Torta Alemã <input type="checkbox" class="extra-sabor-sorvete" value="Sorvete de Torta Alemã" onchange="limitChecks('extra-sabor-sorvete', 2)"></label>
+                            <label class="check-container">Grego c/ Frutas <input type="checkbox" class="extra-sabor-sorvete" value="Sorvete de Iogurte Grego com Frutas Vermelhas" onchange="limitChecks('extra-sabor-sorvete', 2)"></label>
+                            <label class="check-container">Cookie <input type="checkbox" class="extra-sabor-sorvete" value="Sorvete de Cookie" onchange="limitChecks('extra-sabor-sorvete', 2)"></label>
+                            <label class="check-container">Tapioca c/ coco <input type="checkbox" class="extra-sabor-sorvete" value="Sorvete de Tapioca com coco" onchange="limitChecks('extra-sabor-sorvete', 2)"></label>
+                            <label class="check-container">Pistache c/ Nutella <input type="checkbox" class="extra-sabor-sorvete" value="Sorvete de Pistache com Nutella" onchange="limitChecks('extra-sabor-sorvete', 2)"></label>
+                            <label class="check-container">Leite Cond. c/ Passas <input type="checkbox" class="extra-sabor-sorvete" value="Sorvete de Leite Condensado com Passas" onchange="limitChecks('extra-sabor-sorvete', 2)"></label>
+                            <label class="check-container">Doce de Leite Ninho <input type="checkbox" class="extra-sabor-sorvete" value="Sorvete de Doce de Leite com Ninho Crocante" onchange="limitChecks('extra-sabor-sorvete', 2)"></label>
+                            <label class="check-container">Brigadeiro <input type="checkbox" class="extra-sabor-sorvete" value="Sorvete de Brigadeiro" onchange="limitChecks('extra-sabor-sorvete', 2)"></label>
+                            <label class="check-container">Chocolate Suiço <input type="checkbox" class="extra-sabor-sorvete" value="Sorvete de Chocolate Suiço" onchange="limitChecks('extra-sabor-sorvete', 2)"></label>
+                            <label class="check-container">Galak <input type="checkbox" class="extra-sabor-sorvete" value="Sorvete Galak" onchange="limitChecks('extra-sabor-sorvete', 2)"></label>
                         </div>
                     </div>
 
@@ -105,16 +153,7 @@
                     </div>
 
                     <div class="step">
-                        <label><span class="numb">4</span> Frutas (Até 2)</label>
-                        <div class="checkbox-grid">
-                            <label class="check-container">Banana <input type="checkbox" class="extra-fruta" value="Banana" onchange="limitChecks('extra-fruta', 2)"></label>
-                            <label class="check-container">Morango <input type="checkbox" class="extra-fruta" value="Morango" onchange="limitChecks('extra-fruta', 2)"></label>
-                            <label class="check-container">Uva <input type="checkbox" class="extra-fruta" value="Uva" onchange="limitChecks('extra-fruta', 2)"></label>
-                        </div>
-                    </div>
-
-                    <div class="step">
-                        <label><span class="numb">5</span> Calda (Escolha 1)</label>
+                        <label><span class="numb">4</span> Calda (Escolha 1)</label>
                         <div class="checkbox-grid">
                             <label class="check-container">Chocolate <input type="checkbox" class="extra-calda" value="Chocolate" onchange="limitChecks('extra-calda', 1)"></label>
                             <label class="check-container">Morango <input type="checkbox" class="extra-calda" value="Morango" onchange="limitChecks('extra-calda', 1)"></label>
@@ -122,9 +161,10 @@
                         </div>
                     </div>
 
-                    <div style="display:flex; gap:10px;">
-                        <button class="btn-build" style="background:#666;" onclick="cancelSelection()">Cancelar</button>
-                        <button class="btn-build" onclick="confirmChefItem()">Adicionar ao Pedido</button>
+                    <div class="builder-actions">
+                        <button class="btn-sm btn-cancel" onclick="cancelSelection()">Cancelar</button>
+                        <button class="btn-sm btn-continue" onclick="confirmChefItem(false)">Continuar Comprando</button>
+                        <button class="btn-sm btn-finish" onclick="confirmChefItem(true)">Finalizar Pedido</button>
                     </div>
                 </div>
             </div>
@@ -138,24 +178,29 @@
         </div>
         <div id="cart-items-flow" class="cart-items"></div>
         <div class="cart-summary">
-            <div class="summary-line">
-                <label>Bairro:</label>
-                <select id="bairro-select" onchange="updateCartUI()" style="padding:5px; border-radius:5px;">
+            <div class="address-fields">
+                <label style="font-size: 0.8rem; font-weight: bold; margin-bottom: -5px;">Dados para Entrega:</label>
+                <select id="bairro-select" onchange="updateCartUI()" class="premium-input">
                     <option value="0">Selecione o Bairro...</option>
                     <option value="Nova Belém">Nova Belém</option>
                     <option value="Chacrinha">Chacrinha</option>
                     <option value="Beira Rio">Beira Rio</option>
                 </select>
+                <input type="text" id="end-rua" placeholder="Nome da Rua" class="premium-input">
+                <input type="text" id="end-numero" placeholder="Número da Casa" class="premium-input">
+                <input type="text" id="end-ref" placeholder="Ponto de Referência" class="premium-input">
             </div>
+            
             <div class="summary-line" style="margin-top:10px;">
-                <input type="text" id="coupon-input" placeholder="Cupom" style="width:60%; padding:5px;">
-                <button onclick="applyCoupon()" style="width:35%; padding:5px; background:var(--primary); color:white; border:none; border-radius:5px;">Aplicar</button>
+                <span>Subtotal:</span> <span id="subtotal">R$ 0,00</span>
             </div>
-            <hr style="margin:10px 0; opacity:0.2;">
-            <div class="summary-line"><span>Subtotal</span> <span id="subtotal">R$ 0,00</span></div>
-            <div class="summary-line"><span>Entrega</span> <span id="delivery-fee">R$ 0,00</span></div>
-            <div class="summary-line total"><span>Total</span> <span id="cart-total">R$ 0,00</span></div>
-            <button class="btn-checkout" onclick="sendToWhatsApp()">Confirmar WhatsApp <i class="fab fa-whatsapp"></i></button>
+            <div class="summary-line">
+                <span>Entrega:</span> <span id="delivery-fee">R$ 0,00</span>
+            </div>
+            <div class="summary-line total">
+                <span>Total:</span> <span id="cart-total">R$ 0,00</span>
+            </div>
+            <button class="btn-checkout" onclick="sendToWhatsApp()">Enviar para WhatsApp <i class="fab fa-whatsapp"></i></button>
         </div>
     </div>
 
