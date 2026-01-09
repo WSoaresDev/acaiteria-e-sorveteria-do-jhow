@@ -1,7 +1,23 @@
 const DB = {
-    products: [], // VAMOS PREENCHER AQUI
+    products: [
+        { 
+            id: 1, 
+            cat: 'acai', 
+            name: "Açaí Tradicional Prime", 
+            desc: "Dois sabores de açaí, com a opção de escolher diversos acompanhamentos, e uma calda", 
+            img: "https://images.unsplash.com/photo-1590301157890-4810ed352733?w=500", 
+            options: [
+                {s:"200ml", p:10.00}, 
+                {s:"300ml", p:12.00}, 
+                {s:"400ml", p:16.00}, 
+                {s:"500ml", p:18.00}, 
+                {s:"770ml", p:22.00}, 
+                {s:"1 Litro", p:31.00}
+            ] 
+        }
+    ],
     config: {
-        whatsApp: "5511999998888",
+        whatsApp: "5511999998888", // COLOQUE SEU NUMERO AQUI
         horarioAbertura: 11,
         horarioFechamento: 23,
         taxas: { "Nova Belém": 5.00, "Chacrinha": 7.00, "Beira Rio": 4.00, "0": 0 }
@@ -20,20 +36,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function renderProducts(cat) {
     const list = document.getElementById('product-list');
-    if (DB.products.length === 0) {
-        list.innerHTML = "<p style='text-align:center; grid-column: 1/-1;'>Nenhum produto cadastrado.</p>";
-        return;
-    }
     const filtered = cat === 'todos' ? DB.products : DB.products.filter(p => p.cat === cat);
     list.innerHTML = filtered.map(p => `
-        <div class="p-card">
+        <div class="p-card" data-aos="fade-up">
             <img src="${p.img}" class="p-img">
             <div class="p-info">
                 <h3 class="p-title">${p.name}</h3>
+                <p class="p-desc">${p.desc}</p>
                 <select id="size-${p.id}" class="p-selector">
                     ${p.options.map(o => `<option value="${o.p}">${o.s} - R$ ${o.p.toFixed(2)}</option>`).join('')}
                 </select>
-                <button class="btn-add" onclick="addItem(${p.id})">Adicionar</button>
+                <button class="btn-add" onclick="addItem(${p.id})">Adicionar ao Pedido</button>
             </div>
         </div>
     `).join('');
@@ -42,7 +55,8 @@ function renderProducts(cat) {
 function addItem(id) {
     const p = DB.products.find(i => i.id === id);
     const sel = document.getElementById(`size-${id}`);
-    CART.push({ name: `${p.name} (${sel.options[sel.selectedIndex].text.split(' - ')[0]})`, price: parseFloat(sel.value) });
+    const sizeName = sel.options[sel.selectedIndex].text.split(' - ')[0];
+    CART.push({ name: `${p.name} (${sizeName})`, price: parseFloat(sel.value) });
     updateCartUI();
 }
 
@@ -53,24 +67,23 @@ function limitCheckboxes() {
 
 function addChefCombination() {
     const base = document.getElementById('custom-base');
-    if(!base.value) return alert("Selecione um copo!");
     const price = parseFloat(base.value);
     const size = base.options[base.selectedIndex].text.split(' - ')[0];
     let extras = [];
     document.querySelectorAll('.extra-free:checked').forEach(e => extras.push(e.value));
     CART.push({ name: `Chef: ${size} (${extras.join(', ')})`, price });
     updateCartUI();
-    alert("Adicionado!");
+    alert("Montagem adicionada!");
 }
 
 function applyCoupon() {
     const code = document.getElementById('coupon-input').value.toUpperCase();
     if(code === "PRIME10") {
         discountFactor = 0.10;
-        alert("Desconto de 10% aplicado!");
+        alert("Cupom PRIME10 aplicado (10% de desconto)");
     } else {
         discountFactor = 0;
-        alert("Cupom inválido!");
+        alert("Cupom inválido");
     }
     updateCartUI();
 }
@@ -81,9 +94,12 @@ function updateCartUI() {
     const taxa = DB.config.taxas[bairro] || 0;
     
     flow.innerHTML = CART.map((item, i) => `
-        <div class="cart-item">
+        <div class="cart-item" style="display:flex; justify-content:space-between; margin-bottom:10px; border-bottom:1px solid #eee; padding-bottom:5px;">
             <span>${item.name}</span>
-            <i class="fas fa-trash" onclick="remove(${i})" style="color:red; cursor:pointer"></i>
+            <div>
+                <span>R$ ${item.price.toFixed(2)}</span>
+                <i class="fas fa-trash" onclick="remove(${i})" style="color:red; margin-left:10px; cursor:pointer"></i>
+            </div>
         </div>
     `).join('');
 
@@ -103,16 +119,19 @@ function checkLojaStatus() {
     const hora = new Date().getHours();
     const statusEl = document.getElementById('status-loja');
     const aberto = (hora >= DB.config.horarioAbertura && hora < DB.config.horarioFechamento);
-    statusEl.innerHTML = aberto ? `<span style="color:#25d366">● Aberto</span>` : `<span style="color:red">● Fechado</span>`;
+    statusEl.innerHTML = aberto ? `<i class="fas fa-circle" style="color:#25d366"></i> Aberto Agora` : `<i class="fas fa-circle" style="color:red"></i> Fechado Agora`;
 }
 
 function sendToWhatsApp() {
     const bairro = document.getElementById('bairro-select').value;
-    if(bairro === "0") return alert("Escolha o bairro!");
-    if(CART.length === 0) return alert("Carrinho vazio!");
+    if(bairro === "0") return alert("Por favor, selecione o bairro para entrega.");
+    if(CART.length === 0) return alert("Seu carrinho está vazio.");
 
-    let msg = `*NOVO PEDIDO - AÇAÍ PRIME*%0A`;
-    CART.forEach(i => msg += `- ${i.name} (R$ ${i.price.toFixed(2)})%0A`);
-    msg += `%0A*Bairro:* ${bairro}%0A*Pagamento:* ${document.getElementById('payment-method').value}%0A*TOTAL:* ${document.getElementById('cart-total').innerText}`;
+    let msg = `*NOVO PEDIDO - AÇAÍ PRIME*%0A%0A`;
+    CART.forEach(i => msg += `• ${i.name} - R$ ${i.price.toFixed(2)}%0A`);
+    msg += `%0A*Subtotal:* ${document.getElementById('subtotal').innerText}`;
+    msg += `%0A*Bairro:* ${bairro}`;
+    msg += `%0A*Entrega:* ${document.getElementById('delivery-fee').innerText}`;
+    msg += `%0A*TOTAL:* ${document.getElementById('cart-total').innerText}`;
     window.open(`https://wa.me/${DB.config.whatsApp}?text=${msg}`);
 }

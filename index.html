@@ -48,6 +48,7 @@
         <div class="container">
             <div class="filter-wrapper">
                 <div class="filter-item active" onclick="filterMenu('todos', this)"><span>Todos</span></div>
+                <div class="filter-item" onclick="filterMenu('acai', this)"><span>Açaí</span></div>
             </div>
         </div>
     </section>
@@ -55,10 +56,9 @@
     <main class="container" id="cardapio">
         <div class="section-header">
             <h2>Nosso Cardápio</h2>
-            <p>Escolha seus favoritos abaixo</p>
+            <p>Escolha o tamanho ideal do seu Açaí</p>
         </div>
-        <div id="product-list" class="product-grid">
-            </div>
+        <div id="product-list" class="product-grid"></div>
     </main>
 
     <section id="monte-seu" class="builder-section">
@@ -72,15 +72,21 @@
                     <div class="step">
                         <label><span class="numb">1</span> Escolha o Copo</label>
                         <select id="custom-base" class="premium-select">
-                            </select>
+                            <option value="10.00">Açaí copo de 200ml - R$ 10,00</option>
+                            <option value="12.00">Açaí copo de 300ml - R$ 12,00</option>
+                            <option value="16.00">Açaí copo de 400ml - R$ 16,00</option>
+                            <option value="18.00" selected>Açaí copo de 500ml - R$ 18,00</option>
+                            <option value="22.00">Açaí copo de 770ml - R$ 22,00</option>
+                            <option value="31.00">Açaí de 1L - R$ 31,00</option>
+                        </select>
                     </div>
                     <div class="step">
                         <label><span class="numb">2</span> Acompanhamentos (Máximo 3)</label>
                         <div class="checkbox-grid">
-                            <label class="check-container">Banana <input type="checkbox" class="extra-free" value="Banana" onchange="limitCheckboxes()"><span class="checkmark"></span></label>
-                            <label class="check-container">Granola <input type="checkbox" class="extra-free" value="Granola" onchange="limitCheckboxes()"><span class="checkmark"></span></label>
-                            <label class="check-container">Leite Pó <input type="checkbox" class="extra-free" value="Leite Pó" onchange="limitCheckboxes()"><span class="checkmark"></span></label>
-                            <label class="check-container">Leite Cond. <input type="checkbox" class="extra-free" value="Leite Cond." onchange="limitCheckboxes()"><span class="checkmark"></span></label>
+                            <label class="check-container">Banana <input type="checkbox" class="extra-free" value="Banana" onchange="limitCheckboxes()"></label>
+                            <label class="check-container">Granola <input type="checkbox" class="extra-free" value="Granola" onchange="limitCheckboxes()"></label>
+                            <label class="check-container">Leite Pó <input type="checkbox" class="extra-free" value="Leite Pó" onchange="limitCheckboxes()"></label>
+                            <label class="check-container">Leite Cond. <input type="checkbox" class="extra-free" value="Leite Cond." onchange="limitCheckboxes()"></label>
                         </div>
                     </div>
                     <button class="btn-build" onclick="addChefCombination()">Adicionar ao Pedido</button>
@@ -89,20 +95,12 @@
         </div>
     </section>
 
-    <div class="mobile-nav">
-        <a href="#" class="m-nav-item"><i class="fas fa-home"></i><span>Home</span></a>
-        <a href="#cardapio" class="m-nav-item"><i class="fas fa-search"></i><span>Cardápio</span></a>
-        <a href="#monte-seu" class="m-nav-item"><i class="fas fa-plus-circle"></i><span>Montar</span></a>
-        <a href="javascript:void(0)" onclick="toggleCart()" class="m-nav-item"><i class="fas fa-shopping-cart"></i><span>Carrinho</span></a>
-    </div>
-
     <div id="cart-sidebar" class="cart-sidebar">
         <div class="cart-header">
             <h3>Seu Pedido</h3>
             <span onclick="toggleCart()"><i class="fas fa-times"></i></span>
         </div>
         <div id="cart-items-flow" class="cart-items"></div>
-        
         <div class="cart-summary">
             <div class="summary-line">
                 <label>Bairro:</label>
@@ -114,21 +112,14 @@
                 </select>
             </div>
             <div class="summary-line" style="margin-top:10px;">
-                <input type="text" id="coupon-input" placeholder="Cupom" style="width:60%; padding:5px; border:1px solid #ddd; border-radius:5px;">
+                <input type="text" id="coupon-input" placeholder="Cupom" style="width:60%; padding:5px;">
                 <button onclick="applyCoupon()" style="width:35%; padding:5px; background:var(--primary); color:white; border:none; border-radius:5px;">Aplicar</button>
             </div>
             <hr style="margin:10px 0; opacity:0.2;">
             <div class="summary-line"><span>Subtotal</span> <span id="subtotal">R$ 0,00</span></div>
             <div class="summary-line"><span>Entrega</span> <span id="delivery-fee">R$ 0,00</span></div>
             <div class="summary-line total"><span>Total</span> <span id="cart-total">R$ 0,00</span></div>
-            
-            <select id="payment-method" style="width:100%; padding:10px; margin-top:10px; border-radius:8px;">
-                <option value="Dinheiro">Dinheiro</option>
-                <option value="PIX">PIX</option>
-                <option value="Cartão">Cartão</option>
-            </select>
-
-            <button class="btn-checkout" onclick="sendToWhatsApp()">Confirmar WhatsApp <i class="fab fa-whatsapp"></i></button>
+            <button class="btn-checkout" onclick="sendToWhatsApp()">Confirmar via WhatsApp <i class="fab fa-whatsapp"></i></button>
         </div>
     </div>
 
