@@ -97,11 +97,16 @@ header { background: rgba(45, 10, 49, 0.95); backdrop-filter: blur(10px); paddin
 @media (max-width: 768px) {
     .hero-content h1 { font-size: 2.2rem; }
     .product-grid { grid-template-columns: 1fr; }
-    .checkbox-grid { grid-template-columns: 1fr; }
     .mobile-nav { display: flex; }
     .hero-premium { height: 60vh; }
     .category-slider { top: 60px; }
     .cart-sidebar { width: 100%; max-width: 100%; }
+}
+
+.checkbox-grid { 
+    display: grid; 
+    grid-template-columns: 1fr; /* Alterado de 2 para 1 coluna */
+    gap: 12px;
 }
 
 /* Garante que o sidebar fique por cima de tudo */
