@@ -8,75 +8,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&family=Pacifico&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <style>
-        /* Botões de ação compactos */
-        .builder-actions { 
-            display: flex; 
-            gap: 6px; 
-            margin-top: 20px; 
-            justify-content: center; 
-        }
-        .btn-sm { 
-            padding: 12px 5px; 
-            font-size: 0.7rem; 
-            border-radius: 8px; 
-            border: none; 
-            cursor: pointer; 
-            font-weight: bold; 
-            flex: 1; 
-            text-align: center;
-            text-transform: uppercase;
-        }
-        .btn-cancel { background: #e74c3c; color: white; }
-        .btn-continue { background: #3498db; color: white; }
-        .btn-finish { background: #27ae60; color: white; }
-        
-        /* Endereço em linhas separadas */
-        .address-fields { 
-            margin-top: 15px; 
-            display: flex; 
-            flex-direction: column; 
-            gap: 8px; 
-        }
-        .premium-input { 
-            padding: 12px; 
-            border: 1px solid #ddd; 
-            border-radius: 8px; 
-            width: 100%; 
-            font-family: 'Montserrat', sans-serif; 
-            box-sizing: border-box; 
-        }
-
-        /* LISTA VERTICAL PARA OPÇÕES */
-        .checkbox-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-top: 10px;
-            max-height: 350px; 
-            overflow-y: auto;
-            padding-right: 8px;
-        }
-        
-        .check-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #fdfdfd;
-            padding: 14px;
-            border-radius: 10px;
-            border: 1px solid #eee;
-            margin: 0 !important;
-            width: 100%;
-            box-sizing: border-box;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-
-        /* Estilo da barra de rolagem */
-        .checkbox-grid::-webkit-scrollbar { width: 6px; }
-        .checkbox-grid::-webkit-scrollbar-thumb { background: #6c2d8a; border-radius: 10px; }
-    </style>
 </head>
 <body>
 
@@ -103,7 +34,7 @@
                 <div class="filter-item active" onclick="filterMenu('todos', this)"><span>Todos</span></div>
                 <div class="filter-item" onclick="filterMenu('acai', this)"><span>Açaí</span></div>
                 <div class="filter-item" onclick="filterMenu('sorvete', this)"><span>Sorvetes</span></div>
-                <div class="filter-item" onclick="filterMenu('casadinho', this)"><span>Misto</span></div>
+                <div class="filter-item" onclick="filterMenu('casadinho', this)"><span>Casadinho</span></div>
                 <div class="filter-item" onclick="filterMenu('picole', this)"><span>Picolés</span></div>
                 <div class="filter-item" onclick="filterMenu('bebida', this)"><span>Bebidas</span></div>
             </div>
