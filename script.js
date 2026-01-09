@@ -61,6 +61,7 @@ function initPersonalization(id) {
     const price = parseFloat(sel.value);
     const sizeLabel = p.options.length > 1 ? sel.options[sel.selectedIndex].text.split(' - ')[0] : "";
 
+    // Itens que não precisam de montagem (Bebidas/Picolés)
     if(p.cat === 'picole' || p.cat === 'bebida') {
         CART.push({ name: `${p.name} (${sizeLabel || 'Unid'})`, price: price });
         updateCartUI();
@@ -70,28 +71,36 @@ function initPersonalization(id) {
 
     tempItem = { name: p.name, size: sizeLabel, price: price, cat: p.cat };
     
+    // Reseta todos os checkboxes antes de mostrar
     document.querySelectorAll('input[type="checkbox"]').forEach(c => { c.checked = false; c.disabled = false; });
 
-    // REGRAS DE LIMITES
-    const srvLimit = (p.cat === 'sorvete') ? 2 : 1;
-    
-    // Atualiza labels visuais
-    const labelAcai = document.querySelector('#step-sabores-acai label');
-    const labelSorvete = document.querySelector('#step-sabores-sorvete label');
-    if(labelAcai) labelAcai.innerHTML = `<span class="numb">1</span> Sabor de Açaí (Escolha 1)`;
-    if(labelSorvete) labelSorvete.innerHTML = `<span class="numb">2</span> Sabores de Sorvete (Até ${srvLimit})`;
+    // --- LÓGICA DE EXIBIÇÃO E REGRAS ---
+    const stepAcai = document.getElementById('step-sabores-acai');
+    const stepSorvete = document.getElementById('step-sabores-sorvete');
 
-    // Aplica os limites nos cliques
-    document.querySelectorAll('.extra-sabor-acai').forEach(el => el.onchange = () => limitChecks('extra-sabor-acai', 1));
-    document.querySelectorAll('.extra-sabor-sorvete').forEach(el => el.onchange = () => limitChecks('extra-sabor-sorvete', srvLimit));
-    document.querySelectorAll('.extra-free').forEach(el => el.onchange = () => limitChecks('extra-free', 5));
+    // 1. Controle de Visibilidade
+    stepAcai.style.display = (p.cat === 'acai' || p.cat === 'casadinho') ? 'block' : 'none';
+    stepSorvete.style.display = (p.cat === 'sorvete' || p.cat === 'casadinho') ? 'block' : 'none';
+
+    // 2. Definição dos Limites conforme sua regra
+    let limiteAcai = 1; // Sempre 1 sabor de açaí
+    let limiteSorvete = (p.cat === 'sorvete') ? 2 : 1; // 2 se for só sorvete, 1 se for casadinho
+
+    // 3. Atualiza os textos dos Labels para o cliente saber o limite
+    stepAcai.querySelector('label').innerHTML = `<span class="numb">1</span> Escolha seu Açaí (Máx: ${limiteAcai})`;
+    stepSorvete.querySelector('label').innerHTML = `<span class="numb">2</span> Escolha o Sorvete (Máx: ${limiteSorvete})`;
+
+    // 4. Aplica as regras nas funções de clique
+    document.querySelectorAll('.extra-sabor-acai').forEach(el => el.onchange = () => limitChecks('extra-sabor-acai', limiteAcai));
+    document.querySelectorAll('.extra-sabor-sorvete').forEach(el => el.onchange = () => limitChecks('extra-sabor-sorvete', limiteSorvete));
+    
+    // Limites fixos para acompanhamentos e caldas
+    document.querySelectorAll('.extra-free').forEach(el => el.onchange = () => limitChecks('extra-free', 3));
     document.querySelectorAll('.extra-calda').forEach(el => el.onchange = () => limitChecks('extra-calda', 1));
 
+    // Mostra a seção de montagem e rola a tela
     document.getElementById('selected-product-name').innerText = `${p.name} ${sizeLabel}`;
     document.getElementById('monte-seu').style.display = 'block';
-    document.getElementById('step-sabores-acai').style.display = (p.cat === 'acai' || p.cat === 'casadinho') ? 'block' : 'none';
-    document.getElementById('step-sabores-sorvete').style.display = (p.cat === 'sorvete' || p.cat === 'casadinho') ? 'block' : 'none';
-    
     document.getElementById('monte-seu').scrollIntoView({ behavior: 'smooth' });
 }
 
@@ -108,10 +117,18 @@ function confirmChefItem(finishOrder) {
     let extras = []; document.querySelectorAll('.extra-free:checked').forEach(e => extras.push(e.value));
     let caldas = []; document.querySelectorAll('.extra-calda:checked').forEach(e => caldas.push(e.value));
 
-    if((tempItem.cat === 'acai' || tempItem.cat === 'casadinho') && acai.length === 0) return alert("Escolha o Açaí!");
-    if((tempItem.cat === 'sorvete' || tempItem.cat === 'casadinho') && sorvete.length === 0) return alert("Escolha o Sorvete!");
-    if(extras.length === 0) return alert("Escolha pelo menos 1 acompanhamento!");
+    // Validações baseadas na categoria
+    if((tempItem.cat === 'acai' || tempItem.cat === 'casadinho') && acai.length === 0) {
+        return alert("Por favor, selecione o sabor do seu Açaí!");
+    }
+    if((tempItem.cat === 'sorvete' || tempItem.cat === 'casadinho') && sorvete.length === 0) {
+        return alert("Por favor, selecione o sabor do seu Sorvete!");
+    }
+    if(extras.length === 0) {
+        return alert("Escolha pelo menos 1 acompanhamento!");
+    }
 
+    // Monta a descrição
     let desc = `${tempItem.name} (${tempItem.size})`;
     if(acai.length) desc += ` | Açaí: ${acai.join(',')}`;
     if(sorvete.length) desc += ` | Sorvete: ${sorvete.join(',')}`;
