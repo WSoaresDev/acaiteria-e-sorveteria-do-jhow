@@ -392,3 +392,33 @@ select.premium-input {
     line-height: 1.4;
     margin-bottom: 5px;
 }
+
+/* Garante que o slider não fique escondido atrás do header fixo */
+.category-slider {
+    position: sticky;
+    top: 93px; /* Ajuste esse valor de acordo com a altura do seu header */
+    z-index: 999;
+    background: #fff;
+    padding: 10px 0;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    margin-bottom: 15px;
+}
+
+/* Ajuste opcional para o container da lista de produtos não subir demais */
+#cardapio {
+    padding-top: 10px;
+}
+
+/* Melhora a visualização do slider em telas menores */
+.filter-wrapper {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 5px 10px;
+    gap: 10px;
+    -webkit-overflow-scrolling: touch;
+}
+
+.filter-wrapper::-webkit-scrollbar {
+    display: none; /* Esconde a barra de rolagem para ficar mais limpo */
+}
