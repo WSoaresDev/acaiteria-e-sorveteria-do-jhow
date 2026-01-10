@@ -44,9 +44,7 @@ function renderProducts(cat) {
         if (!isSingle) {
             sizeHtml = `<div class="size-options-container" id="sizes-container-${p.id}">`;
             p.options.forEach((opt, idx) => {
-                // Se for 500ml, coloca o selo
                 const selo = opt.s === "500ml" ? '<span class="badge-mais-vendido">🔥 TOP</span>' : '';
-                // O primeiro item (idx === 0) vem marcado por padrão
                 sizeHtml += `
                     <div class="size-option ${idx === 0 ? 'selected' : ''}" 
                          onclick="selectSize(this, ${p.id}, ${opt.p}, '${opt.s}')">
@@ -76,16 +74,11 @@ function renderProducts(cat) {
     }).join('');
 }
 
-// Função para gerenciar a seleção visual
 function selectSize(element, productId, price, label) {
-    // Remove 'selected' de todos no mesmo container
     const container = document.getElementById(`sizes-container-${productId}`);
     container.querySelectorAll('.size-option').forEach(opt => opt.classList.remove('selected'));
-    
-    // Adiciona no clicado
     element.classList.add('selected');
     
-    // Guarda o valor selecionado temporariamente num atributo do botão de adicionar
     const addBtn = document.getElementById(`btn-add-${productId}`);
     addBtn.setAttribute('data-price', price);
     addBtn.setAttribute('data-label', label);
@@ -95,11 +88,9 @@ function initPersonalization(id) {
     const p = DB.products.find(i => i.id === id);
     const addBtn = document.getElementById(`btn-add-${id}`);
     
-    // Pega o preço e tamanho (Garante que se for nulo, pega o primeiro da lista)
     let price = parseFloat(addBtn.getAttribute('data-price')) || p.options[0].p;
     let sizeLabel = addBtn.getAttribute('data-label') || p.options[0].s;
 
-    // 1. Se for Picolé ou Bebida, adiciona direto
     if(p.cat === 'picole' || p.cat === 'bebida') {
         CART.push({ name: `*${p.name} (${sizeLabel})*`, price: price });
         updateCartUI();
@@ -107,48 +98,35 @@ function initPersonalization(id) {
         return;
     }
 
-    // 2. Se for Açaí ou Sorvete, prepara a montagem
     tempItem = { name: p.name, size: sizeLabel, price: price, cat: p.cat };
     
-    // Reseta todos os campos antes de abrir
     document.querySelectorAll('.builder-body input[type="checkbox"]').forEach(c => { 
         c.checked = false; 
         c.disabled = false; 
     });
 
-    // Configura os textos e visibilidade das etapas
     const stepAcai = document.getElementById('step-sabores-acai');
     const stepSorvete = document.getElementById('step-sabores-sorvete');
 
     stepAcai.style.display = (p.cat === 'acai' || p.cat === 'casadinho') ? 'block' : 'none';
     stepSorvete.style.display = (p.cat === 'sorvete' || p.cat === 'casadinho') ? 'block' : 'none';
 
-    // Define os limites baseados no produto
     let limiteAcai = 1;
     let limiteSorvete = (p.cat === 'sorvete') ? 2 : 1;
     let limiteAcomp = 5;
 
-    // Atualiza os títulos das etapas com os limites
     if(stepAcai) stepAcai.querySelector('.step-title').innerHTML = `<span class="numb">1</span> Escolha seu Açaí (Máx: ${limiteAcai})`;
     if(stepSorvete) stepSorvete.querySelector('.step-title').innerHTML = `<span class="numb">2</span> Escolha o Sorvete (Máx: ${limiteSorvete})`;
 
-    // Reatribui as funções de limite para garantir que funcionem
     document.querySelectorAll('.extra-sabor-acai').forEach(el => el.onchange = () => limitChecks('extra-sabor-acai', limiteAcai));
     document.querySelectorAll('.extra-sabor-sorvete').forEach(el => el.onchange = () => limitChecks('extra-sabor-sorvete', limiteSorvete));
     document.querySelectorAll('.extra-free').forEach(el => el.onchange = () => limitChecks('extra-free', limiteAcomp));
     document.querySelectorAll('.extra-calda').forEach(el => el.onchange = () => limitChecks('extra-calda', 1));
 
-    // Mostra a tela e joga o foco nela
     document.getElementById('selected-product-name').innerText = `${p.name} (${sizeLabel})`;
     const builderSection = document.getElementById('monte-seu');
     builderSection.style.display = 'block';
-    
-    // Scroll suave para o início da montagem
     builderSection.scrollIntoView({ behavior: 'smooth' });
-}
-
-function cancelSelection() {
-    document.getElementById('monte-seu').style.display = 'none';
 }
 
 function limitChecks(className, limit) {
@@ -159,19 +137,18 @@ function limitChecks(className, limit) {
 }
 
 function confirmChefItem(finishOrder) {
+    if(!tempItem) return;
+    
     let acai = []; document.querySelectorAll('.extra-sabor-acai:checked').forEach(e => acai.push(e.value));
     let sorvete = []; document.querySelectorAll('.extra-sabor-sorvete:checked').forEach(e => sorvete.push(e.value));
     let extras = []; document.querySelectorAll('.extra-free:checked').forEach(e => extras.push(e.value));
     let caldas = []; document.querySelectorAll('.extra-calda:checked').forEach(e => caldas.push(e.value));
 
-    // Validações
     if((tempItem.cat === 'acai' || tempItem.cat === 'casadinho') && acai.length === 0) return alert("Escolha o Açaí!");
     if((tempItem.cat === 'sorvete' || tempItem.cat === 'casadinho') && sorvete.length === 0) return alert("Escolha o Sorvete!");
     if(extras.length === 0) return alert("Escolha pelo menos 1 acompanhamento!");
 
-    // FORMATANDO A DESCRIÇÃO PARA FICAR FÁCIL DE LER
     let desc = `*${tempItem.name} (${tempItem.size})*`; 
-    
     if(acai.length) desc += `\n🟣 *Açaí:* ${acai.join(', ')}`;
     if(sorvete.length) desc += `\n🍦 *Sorvete:* ${sorvete.join(', ')}`;
     if(extras.length) desc += `\n🥜 *Acomp:* ${extras.join(', ')}`;
@@ -184,7 +161,8 @@ function confirmChefItem(finishOrder) {
 }
 
 function cancelSelection() {
-    document.getElementById('monte-seu').style.display = 'none';
+    const section = document.getElementById('monte-seu');
+    if(section) section.style.display = 'none';
     tempItem = null;
 }
 
@@ -196,44 +174,20 @@ function filterMenu(cat, el) {
 
 function updateCartUI() {
     const flow = document.getElementById('cart-items-flow');
+    const badge = document.getElementById('cart-count');
     const bairro = document.getElementById('bairro-select').value;
     const taxa = DB.config.taxas[bairro] || 0;
     
-    flow.innerHTML = CART.map((item, i) => `
-        <div class="cart-item">
-            <p style="font-size:0.85rem; margin:0;">${item.name}</p>
-            <div style="display:flex; justify-content:space-between;">
-                <b>R$ ${item.price.toFixed(2)}</b>
-                <button onclick="remove(${i})" style="border:none; background:none; color:red; cursor:pointer;"><i class="fas fa-trash"></i></button>
-            </div>
-        </div><hr>`).join('');
-
-    const sub = CART.reduce((a, b) => a + b.price, 0);
-    document.getElementById('subtotal').innerText = `R$ ${sub.toFixed(2)}`;
-    document.getElementById('delivery-fee').innerText = `R$ ${taxa.toFixed(2)}`;
-    document.getElementById('cart-total').innerText = `R$ ${(sub + taxa).toFixed(2)}`;
-    document.getElementById('cart-count').innerText = CART.length;
-}
-
-function remove(i) { CART.splice(i, 1); updateCartUI(); }
-function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('active'); }
-
-function updateCartUI() {
-    const flow = document.getElementById('cart-items-flow');
-    const bairro = document.getElementById('bairro-select').value;
-    const taxa = DB.config.taxas[bairro] || 0;
-    
-    // Atualiza contador de itens no ícone
-    document.getElementById('cart-count').innerText = CART.length;
+    if(badge) badge.innerText = CART.length;
 
     if (CART.length === 0) {
         flow.innerHTML = '<p style="text-align:center; padding:20px; opacity:0.5;">Seu carrinho está vazio...</p>';
     } else {
         flow.innerHTML = CART.map((item, i) => `
-            <div class="cart-item">
+            <div class="cart-item" style="border-bottom: 1px solid #eee; padding: 10px 0;">
                 <div style="flex:1">
-                    <p style="font-size:0.85rem; margin:0; font-weight:600;">${item.name}</p>
-                    <b>R$ ${item.price.toFixed(2)}</b>
+                    <p style="font-size:0.85rem; margin:0; font-weight:600; white-space: pre-wrap;">${item.name}</p>
+                    <b style="color: #2d0a31;">R$ ${item.price.toFixed(2)}</b>
                 </div>
                 <button onclick="removeItem(${i})" style="background:none; border:none; color:#ff4d4d; cursor:pointer; padding:5px;">
                     <i class="fas fa-trash"></i>
@@ -271,18 +225,22 @@ function sendToWhatsApp() {
         return alert("Por favor, preencha o endereço completo!");
     }
 
+    const subtotal = CART.reduce((acc, cur) => acc + cur.price, 0);
+    const taxa = DB.config.taxas[bairro] || 0;
+    const totalGeral = (subtotal + taxa).toFixed(2);
+
     let msg = `*NOVO PEDIDO - AÇAÍ DO JHOW*\n`;
     msg += `------------------------------\n`;
     
     CART.forEach(item => {
-        msg += `${item.name}\n*Subtotal:* R$ ${item.price.toFixed(2)}\n\n`;
+        msg += `${item.name}\n*Valor:* R$ ${item.price.toFixed(2)}\n\n`;
     });
 
     msg += `------------------------------\n`;
-    msg += `📍 *ENTREGA:* ${rua}, nº ${numero}\n`;
+    msg += `📍 *ENTREGA:* ${rua}, nº ${num}\n`;
     msg += `🏘️ *Bairro:* ${bairro}\n`;
-    msg += `🚩 *Ref:* ${referencia}\n\n`;
-    msg += `*TOTAL COM ENTREGA:* R$ ${totalGeral}`;
+    if(ref) msg += `🚩 *Ref:* ${ref}\n`;
+    msg += `\n💰 *TOTAL COM ENTREGA: R$ ${totalGeral}*`;
 
     const url = `https://api.whatsapp.com/send?phone=${DB.config.whatsApp}&text=${encodeURIComponent(msg)}`;
     window.open(url, '_blank');

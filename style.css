@@ -28,6 +28,28 @@ body { background: var(--bg-light); color: var(--text-main); line-height: 1.6; }
 .status-open { color: var(--success); }
 .status-closed { color: #ff4d4d; }
 
+#main-header {
+    background: #2d0a31; /* Cor roxa do açaí */
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.cart-header-icon:hover {
+    background: rgba(255,255,255,0.2);
+    transform: scale(1.05);
+}
+
+.cart-header-icon:active {
+    transform: scale(0.95);
+}
+
+/* Remova o estilo do cart-float antigo se houver, para não duplicar */
+.cart-float {
+    display: none;
+}
+
 /* Alinhamento da Logo no Header */
 .logo {
     display: flex;
