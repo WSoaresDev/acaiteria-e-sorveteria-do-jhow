@@ -1,10 +1,10 @@
 const DB = {
     products: [
-        { id: 1, cat: 'acai', name: "Açaí", desc: "Açaí puro. Monte do seu jeito.", img: "https://images.unsplash.com/photo-1590301157890-4810ed352733?w=500", 
+        { id: 1, cat: 'acai', name: "Açaí", desc: "Açaí puro. Monte do seu jeito.", img: "/imagens/acai.jpg", 
             options: [{s:"200ml", p:10}, {s:"300ml", p:12}, {s:"400ml", p:16}, {s:"500ml", p:18}, {s:"770ml", p:22}, {s:"1 Litro", p:31}] },
-        { id: 2, cat: 'sorvete', name: "Sorvete", desc: "Cremoso. Escolha até 2 sabores.", img: "https://images.unsplash.com/photo-1567206563064-6f60f40a2b57?w=500", 
+        { id: 2, cat: 'sorvete', name: "Sorvete", desc: "Cremoso. Escolha até 2 sabores.", img: "/imagens/sorvete.jpg", 
             options: [{s:"200ml", p:10}, {s:"300ml", p:12}, {s:"400ml", p:16}, {s:"500ml", p:20}, {s:"770ml", p:22}, {s:"1 Litro", p:31}] },
-        { id: 3, cat: 'casadinho', name: "Açaí com Sorvete", desc: "O mix perfeito (1 sabor de cada).", img: "https://images.unsplash.com/photo-1580915411954-282cb1b0d780?w=500", 
+        { id: 3, cat: 'casadinho', name: "Açaí com Sorvete", desc: "O mix perfeito (1 sabor de cada).", img: "/imagens/casadinho.jpg", 
         options: [{s:"200ml", p:10}, {s:"300ml", p:12}, {s:"400ml", p:16}, {s:"500ml", p:18}, {s:"770ml", p:22}, {s:"1 Litro", p:31}] }, 
         { id: 4, cat: 'picole', name: "Picolé Leite Condensado", desc: "Refrescante", img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=500", options: [{s:"Unidade", p:3.00}] },
         { id: 5, cat: 'picole', name: "Picolé Milho Verde", desc: "Refrescante", img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=500", options: [{s:"Unidade", p:3.00}] },
