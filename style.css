@@ -28,6 +28,35 @@ body { background: var(--bg-light); color: var(--text-main); line-height: 1.6; }
 .status-open { color: var(--success); }
 .status-closed { color: #ff4d4d; }
 
+/* Alinhamento da Logo no Header */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espaço entre a imagem e o texto */
+    font-family: 'Pacifico', cursive;
+    color: white;
+    font-size: 1.6rem;
+}
+
+.header-logo-img {
+    width: 45px; /* Tamanho da logo no topo */
+    height: 45px;
+    border-radius: 50%; /* Deixa a logo redondinha */
+    object-fit: cover;
+    border: 2px solid var(--accent); /* Um contorno amarelo para destacar */
+}
+
+/* Ajuste para mobile */
+@media (max-width: 768px) {
+    .header-logo-img {
+        width: 35px;
+        height: 35px;
+    }
+    .logo {
+        font-size: 1.3rem;
+    }
+}
+
 header { background: rgba(45, 10, 49, 0.95); backdrop-filter: blur(10px); padding: 15px 0; position: sticky; top:0; z-index: 1000; transition: 0.3s; }
 .header-flex { display:flex; justify-content: space-between; align-items: center; }
 .logo { font-family: 'Pacifico', cursive; color: white; font-size: 1.6rem; }
