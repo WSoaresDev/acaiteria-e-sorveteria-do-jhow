@@ -119,3 +119,89 @@ header { background: rgba(45, 10, 49, 0.95); backdrop-filter: blur(10px); paddin
     color: #cc0000 !important;
     transform: scale(1.1);
 }
+
+/* Estilo específico para o título da etapa */
+.step-title {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 900;
+    color: var(--primary);
+    margin-bottom: 15px;
+    padding-bottom: 8px; /* Espaço entre o texto e a linha */
+    border-bottom: 2px solid var(--accent); /* A linha amarela */
+    text-transform: uppercase;
+}
+
+/* Estilo para as opções de marcar (Checkboxes) */
+.check-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600; /* Um pouco menos que o título */
+    font-size: 0.95rem;
+    color: #444;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee; /* Uma linha bem fininha só para separar as opções */
+    cursor: pointer;
+}
+
+/* Container dos botões */
+.builder-actions {
+    display: flex;
+    flex-direction: column; /* No mobile, um em cima do outro fica melhor */
+    gap: 12px;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px dashed #ccc;
+}
+
+/* Estilo Base dos Botões de Ação */
+.btn-sm {
+    padding: 16px;
+    border-radius: 12px;
+    border: none;
+    font-size: 1rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+/* Botão Cancelar - Estilo mais discreto */
+.btn-cancel {
+    background-color: #f1f1f1;
+    color: #666;
+}
+
+/* Botão Continuar Comprando - Cor Secundária */
+.btn-continue {
+    background-color: var(--primary-light);
+    color: white;
+}
+
+/* Botão Finalizar - Cor de Destaque (Verde Sucesso) */
+.btn-finish {
+    background-color: var(--success);
+    color: white;
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+}
+
+/* Efeito ao passar o mouse ou clicar */
+.btn-sm:active {
+    transform: scale(0.96);
+}
+
+/* Ajuste para telas maiores (PC/Tablet) */
+@media (min-width: 768px) {
+    .builder-actions {
+        flex-direction: row; /* Lado a lado no computador */
+    }
+    .btn-cancel { flex: 1; }
+    .btn-continue { flex: 2; }
+    .btn-finish { flex: 2; }
+}

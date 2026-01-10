@@ -15,7 +15,7 @@ const DB = {
         { id: 12, cat: 'bebida', name: "Guaracamp", desc: "Copo tradicional", img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=500", options: [{s:"Unidade", p:2.00}] }
     ],
     config: {
-        whatsApp: "5511999998888", 
+        whatsApp: "5521968896846", 
         taxas: { "Nova Belém": 5.00, "Chacrinha": 7.00, "Beira Rio": 4.00, "0": 0 }
     }
 };
@@ -61,7 +61,6 @@ function initPersonalization(id) {
     const price = parseFloat(sel.value);
     const sizeLabel = p.options.length > 1 ? sel.options[sel.selectedIndex].text.split(' - ')[0] : "";
 
-    // Itens que não precisam de montagem (Bebidas/Picolés)
     if(p.cat === 'picole' || p.cat === 'bebida') {
         CART.push({ name: `${p.name} (${sizeLabel || 'Unid'})`, price: price });
         updateCartUI();
@@ -71,34 +70,30 @@ function initPersonalization(id) {
 
     tempItem = { name: p.name, size: sizeLabel, price: price, cat: p.cat };
     
-    // Reseta todos os checkboxes antes de mostrar
     document.querySelectorAll('input[type="checkbox"]').forEach(c => { c.checked = false; c.disabled = false; });
 
-    // --- LÓGICA DE EXIBIÇÃO E REGRAS ---
     const stepAcai = document.getElementById('step-sabores-acai');
     const stepSorvete = document.getElementById('step-sabores-sorvete');
 
-    // 1. Controle de Visibilidade
+    // Visibilidade
     stepAcai.style.display = (p.cat === 'acai' || p.cat === 'casadinho') ? 'block' : 'none';
     stepSorvete.style.display = (p.cat === 'sorvete' || p.cat === 'casadinho') ? 'block' : 'none';
 
-    // 2. Definição dos Limites conforme sua regra
-    let limiteAcai = 1; // Sempre 1 sabor de açaí
-    let limiteSorvete = (p.cat === 'sorvete') ? 2 : 1; // 2 se for só sorvete, 1 se for casadinho
+    // Regras de Limites
+    let limiteAcai = 1;
+    let limiteSorvete = (p.cat === 'sorvete') ? 2 : 1;
+    let limiteAcompanhamentos = 5; // Novo limite solicitado
 
-    // 3. Atualiza os textos dos Labels para o cliente saber o limite
-    stepAcai.querySelector('label').innerHTML = `<span class="numb">1</span> Escolha seu Açaí (Máx: ${limiteAcai})`;
-    stepSorvete.querySelector('label').innerHTML = `<span class="numb">2</span> Escolha o Sorvete (Máx: ${limiteSorvete})`;
+    // Onde era stepAcai.querySelector('label'), mude para:
+    if(stepAcai) stepAcai.querySelector('.step-title').innerHTML = `<span class="numb">1</span> Escolha seu Açaí (Máx: ${limiteAcai})`;
+    if(stepSorvete) stepSorvete.querySelector('.step-title').innerHTML = `<span class="numb">2</span> Escolha o Sorvete (Máx: ${limiteSorvete})`;
 
-    // 4. Aplica as regras nas funções de clique
+    // Aplica os limites nos inputs
     document.querySelectorAll('.extra-sabor-acai').forEach(el => el.onchange = () => limitChecks('extra-sabor-acai', limiteAcai));
     document.querySelectorAll('.extra-sabor-sorvete').forEach(el => el.onchange = () => limitChecks('extra-sabor-sorvete', limiteSorvete));
-    
-    // Limites fixos para acompanhamentos e caldas
-    document.querySelectorAll('.extra-free').forEach(el => el.onchange = () => limitChecks('extra-free', 3));
+    document.querySelectorAll('.extra-free').forEach(el => el.onchange = () => limitChecks('extra-free', limiteAcompanhamentos));
     document.querySelectorAll('.extra-calda').forEach(el => el.onchange = () => limitChecks('extra-calda', 1));
 
-    // Mostra a seção de montagem e rola a tela
     document.getElementById('selected-product-name').innerText = `${p.name} ${sizeLabel}`;
     document.getElementById('monte-seu').style.display = 'block';
     document.getElementById('monte-seu').scrollIntoView({ behavior: 'smooth' });

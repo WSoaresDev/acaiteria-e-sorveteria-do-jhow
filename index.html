@@ -55,7 +55,9 @@
                 <div class="builder-body">
                     
                     <div class="step" id="step-sabores-acai">
-                        <label><span class="numb">1</span> Sabores de Açaí (Até 2)</label>
+                        <span class="step-title"><span class="numb">1</span> Escolha seu Açaí (Máx: 1)</span>
+                        <div class="checkbox-grid">
+                            </div>
                         <div class="checkbox-grid">
                             <label class="check-container">Açaí de Banana <input type="checkbox" class="extra-sabor-acai" value="Açaí de Banana" onchange="limitChecks('extra-sabor-acai', 2)"></label>
                             <label class="check-container">Açaí de Cupuaçu <input type="checkbox" class="extra-sabor-acai" value="Açaí de Cupuaçu" onchange="limitChecks('extra-sabor-acai', 2)"></label>
@@ -66,7 +68,9 @@
                     </div>
 
                     <div class="step" id="step-sabores-sorvete">
-                        <label><span class="numb">2</span> Sabores de Sorvete (Até 2)</label>
+                        <span class="step-title"><span class="numb">2</span> Sabores de Sorvete (Até 2)</span>
+                        <div class="checkbox-grid">
+                            </div>
                         <div class="checkbox-grid">
                             <label class="check-container">Abacaxi <input type="checkbox" class="extra-sabor-sorvete" value="Sorvete de Abacaxi" onchange="limitChecks('extra-sabor-sorvete', 2)"></label>
                             <label class="check-container">Blue Ice <input type="checkbox" class="extra-sabor-sorvete" value="Sorvete de Blue Ice" onchange="limitChecks('extra-sabor-sorvete', 2)"></label>
@@ -94,7 +98,9 @@
                     </div>
 
                     <div class="step">
-                        <label><span class="numb">3</span> Acompanhamentos Grátis (Até 3)</label>
+                        <span class="step-title"><span class="numb">3</span> Escolha seus Acompanhamentos (Até 5)</span>
+                    <div class="checkbox-grid">
+                        </div>
                         <div class="checkbox-grid">
                             <label class="check-container">Sucrilhos <input type="checkbox" class="extra-free" value="Sucrilhos" onchange="limitChecks('extra-free', 3)"></label>
                             <label class="check-container">Aveia <input type="checkbox" class="extra-free" value="Aveia" onchange="limitChecks('extra-free', 3)"></label>
@@ -112,7 +118,9 @@
                     </div>
 
                     <div class="step">
-                        <label><span class="numb">4</span> Coberturas (Escolha 1)</label>
+                        <span class="step-title"><span class="numb">4</span> Coberturas (Até 1)</span>
+                    <div class="checkbox-grid">
+                        </div>
                         <div class="checkbox-grid">
                             <label class="check-container">Tutti-Frutti <input type="checkbox" class="extra-calda" value="Cobertura de Tutti-Frutti" onchange="limitChecks('extra-calda', 1)"></label>
                             <label class="check-container">Chocolate <input type="checkbox" class="extra-calda" value="Cobertura de Chocolate" onchange="limitChecks('extra-calda', 1)"></label>
@@ -129,9 +137,15 @@
                     </div>
 
                     <div class="builder-actions">
-                        <button class="btn-sm btn-cancel" onclick="cancelSelection()">Cancelar</button>
-                        <button class="btn-sm btn-continue" onclick="confirmChefItem(false)">Continuar Comprando</button>
-                        <button class="btn-sm btn-finish" onclick="confirmChefItem(true)">Finalizar Compra</button>
+                        <button class="btn-sm btn-cancel" onclick="cancelSelection()">
+                            <i class="fas fa-times" style="margin-right: 8px;"></i> Cancelar
+                        </button>
+                        <button class="btn-sm btn-continue" onclick="confirmChefItem(false)">
+                            <i class="fas fa-cart-plus" style="margin-right: 8px;"></i> Continuar
+                        </button>
+                        <button class="btn-sm btn-finish" onclick="confirmChefItem(true)">
+                            <i class="fas fa-check" style="margin-right: 8px;"></i> Finalizar
+                        </button>
                     </div>
                 </div>
             </div>
