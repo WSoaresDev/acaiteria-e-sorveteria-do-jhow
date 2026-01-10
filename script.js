@@ -10,6 +10,25 @@ const DB = {
         { id: 5, cat: 'picole', name: "Picolé Milho Verde", desc: "Refrescante", img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=500", options: [{s:"Unidade", p:3.00}] },
         { id: 6, cat: 'picole', name: "Picolé de Coco", desc: "Refrescante", img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=500", options: [{s:"Unidade", p:3.00}] },
         { id: 7, cat: 'picole', name: "Picolé Brigadeiro Skimo", desc: "Cobertura de chocolate", img: "https://images.unsplash.com/photo-1560008581-09826d1de69e?w=500", options: [{s:"Unidade", p:6.00}] },
+        // Localize a lista de produtos no seu script.js e adicione estes novos itens:
+
+        // --- Novos Picolés ---
+        { id: 13, cat: 'picole', name: "Picolé de Manga", desc: "Refrescante e natural", img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=500", options: [{s:"Unidade", p:3.00}] },
+        { id: 14, cat: 'picole', name: "Picolé de Maracujá", desc: "Refrescante", img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=500", options: [{s:"Unidade", p:3.00}] },
+        { id: 15, cat: 'picole', name: "Picolé Chocolate Branco Skimo", desc: "Cobertura crocante de chocolate branco", img: "https://images.unsplash.com/photo-1560008581-09826d1de69e?w=500", options: [{s:"Unidade", p:6.00}] },
+        { id: 16, cat: 'picole', name: "Picolé Tapioca Recheado", desc: "Recheio de Leite Condensado", img: "https://images.unsplash.com/photo-1560008581-09826d1de69e?w=500", options: [{s:"Unidade", p:7.00}] },
+        { id: 17, cat: 'picole', name: "Picolé Maracujá Recheado", desc: "Recheio de Leite Condensado", img: "https://images.unsplash.com/photo-1560008581-09826d1de69e?w=500", options: [{s:"Unidade", p:7.00}] },
+
+        // --- Novas Bebidas ---
+        { id: 18, cat: 'bebida', name: "Água s/ Gás", desc: "500ml", img: "https://images.unsplash.com/photo-1559839914-17aae19cea9e?w=500", options: [{s:"Unidade", p:3.00}] },
+        { id: 19, cat: 'bebida', name: "Água s/ Gás 1,5L", desc: "Tamanho família", img: "https://images.unsplash.com/photo-1559839914-17aae19cea9e?w=500", options: [{s:"Unidade", p:6.00}] },
+        { id: 20, cat: 'bebida', name: "Coca Cola 200ml", desc: "Geladinha", img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=500", options: [{s:"Unidade", p:3.00}] },
+        { id: 21, cat: 'bebida', name: "Coca Cola 2L", desc: "Tamanho família", img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=500", options: [{s:"Unidade", p:16.00}] },
+        { id: 22, cat: 'bebida', name: "Guaracamp 250ml", desc: "Copo", img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=500", options: [{s:"Unidade", p:2.00}] },
+        { id: 23, cat: 'bebida', name: "Guaracamp 1,5L", desc: "Garrafa", img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=500", options: [{s:"Unidade", p:7.00}] },
+        { id: 24, cat: 'bebida', name: "Coca Cola 350ml", desc: "Lata", img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=500", options: [{s:"Unidade", p:6.00}] },
+        { id: 25, cat: 'bebida', name: "Guaracamp 285ml", desc: "Copo", img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=500", options: [{s:"Unidade", p:3.00}] },
+        { id: 26, cat: 'bebida', name: "Fanta Laranja 2L", desc: "Gelada", img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=500", options: [{s:"Unidade", p:16.00}] },
         { id: 10, cat: 'bebida', name: "Água com Gás", desc: "500ml", img: "https://images.unsplash.com/photo-1559839914-17aae19cea9e?w=500", options: [{s:"Unidade", p:4.00}] },
         { id: 11, cat: 'bebida', name: "Coca Cola 600ml", desc: "Gelada", img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=500", options: [{s:"Unidade", p:8.00}] },
         { id: 12, cat: 'bebida', name: "Guaracamp", desc: "Copo tradicional", img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=500", options: [{s:"Unidade", p:2.00}] }
