@@ -249,3 +249,11 @@ select.premium-input {
     color: #aaa;
     font-weight: 400;
 }
+
+/* Faz o texto do carrinho respeitar as quebras de linha do JavaScript */
+.cart-item-info h4 {
+    white-space: pre-wrap; /* Essencial para mostrar as linhas uma embaixo da outra */
+    font-size: 0.9rem;
+    line-height: 1.4;
+    margin-bottom: 5px;
+}

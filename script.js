@@ -112,23 +112,18 @@ function confirmChefItem(finishOrder) {
     let extras = []; document.querySelectorAll('.extra-free:checked').forEach(e => extras.push(e.value));
     let caldas = []; document.querySelectorAll('.extra-calda:checked').forEach(e => caldas.push(e.value));
 
-    // Validações baseadas na categoria
-    if((tempItem.cat === 'acai' || tempItem.cat === 'casadinho') && acai.length === 0) {
-        return alert("Por favor, selecione o sabor do seu Açaí!");
-    }
-    if((tempItem.cat === 'sorvete' || tempItem.cat === 'casadinho') && sorvete.length === 0) {
-        return alert("Por favor, selecione o sabor do seu Sorvete!");
-    }
-    if(extras.length === 0) {
-        return alert("Escolha pelo menos 1 acompanhamento!");
-    }
+    // Validações
+    if((tempItem.cat === 'acai' || tempItem.cat === 'casadinho') && acai.length === 0) return alert("Escolha o Açaí!");
+    if((tempItem.cat === 'sorvete' || tempItem.cat === 'casadinho') && sorvete.length === 0) return alert("Escolha o Sorvete!");
+    if(extras.length === 0) return alert("Escolha pelo menos 1 acompanhamento!");
 
-    // Monta a descrição
-    let desc = `${tempItem.name} (${tempItem.size})`;
-    if(acai.length) desc += ` | Açaí: ${acai.join(',')}`;
-    if(sorvete.length) desc += ` | Sorvete: ${sorvete.join(',')}`;
-    if(extras.length) desc += ` | Acomp: ${extras.join(',')}`;
-    if(caldas.length) desc += ` | Calda: ${caldas.join(',')}`;
+    // FORMATANDO A DESCRIÇÃO PARA FICAR FÁCIL DE LER
+    let desc = `*${tempItem.name} (${tempItem.size})*`; 
+    
+    if(acai.length) desc += `\n🟣 *Açaí:* ${acai.join(', ')}`;
+    if(sorvete.length) desc += `\n🍦 *Sorvete:* ${sorvete.join(', ')}`;
+    if(extras.length) desc += `\n🥜 *Acomp:* ${extras.join(', ')}`;
+    if(caldas.length) desc += `\n🍯 *Cobertura:* ${caldas.join(', ')}`;
 
     CART.push({ name: desc, price: tempItem.price });
     updateCartUI();
@@ -224,19 +219,19 @@ function sendToWhatsApp() {
         return alert("Por favor, preencha o endereço completo!");
     }
 
-    let mensagem = `*NOVO PEDIDO - AÇAÍ PRIME GOLD*%0A%0A`;
+    let msg = `*NOVO PEDIDO - AÇAÍ DO JHOW*\n`;
+    msg += `------------------------------\n`;
+    
     CART.forEach(item => {
-        mensagem += `• ${item.name} - R$ ${item.price.toFixed(2)}%0A`;
+        msg += `${item.name}\n*Subtotal:* R$ ${item.price.toFixed(2)}\n\n`;
     });
 
-    const subtotal = CART.reduce((acc, cur) => acc + cur.price, 0);
-    const taxa = DB.config.taxas[bairro] || 0;
-    
-    mensagem += `%0A*Subtotal:* R$ ${subtotal.toFixed(2)}`;
-    mensagem += `%0A*Entrega:* R$ ${taxa.toFixed(2)}`;
-    mensagem += `%0A*TOTAL:* R$ ${(subtotal + taxa).toFixed(2)}`;
-    mensagem += `%0A%0A*ENTREGA EM:*%0A${rua}, nº ${num}%0ABairro: ${bairro}%0ARef: ${ref}`;
+    msg += `------------------------------\n`;
+    msg += `📍 *ENTREGA:* ${rua}, nº ${numero}\n`;
+    msg += `🏘️ *Bairro:* ${bairro}\n`;
+    msg += `🚩 *Ref:* ${referencia}\n\n`;
+    msg += `*TOTAL COM ENTREGA:* R$ ${totalGeral}`;
 
-    const url = `https://api.whatsapp.com/send?phone=${DB.config.whatsApp}&text=${mensagem}`;
+    const url = `https://api.whatsapp.com/send?phone=${DB.config.whatsApp}&text=${encodeURIComponent(msg)}`;
     window.open(url, '_blank');
 }
