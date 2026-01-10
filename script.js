@@ -34,69 +34,121 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function renderProducts(cat) {
     const list = document.getElementById('product-list');
-    if(!list) return;
+    if (!list) return;
     const filtered = cat === 'todos' ? DB.products : DB.products.filter(p => p.cat === cat);
+
     list.innerHTML = filtered.map(p => {
         const isSingle = (p.cat === 'picole' || p.cat === 'bebida');
+        let sizeHtml = '';
+
+        if (!isSingle) {
+            sizeHtml = `<div class="size-options-container" id="sizes-container-${p.id}">`;
+            p.options.forEach((opt, idx) => {
+                // Se for 500ml, coloca o selo
+                const selo = opt.s === "500ml" ? '<span class="badge-mais-vendido">🔥 TOP</span>' : '';
+                // O primeiro item (idx === 0) vem marcado por padrão
+                sizeHtml += `
+                    <div class="size-option ${idx === 0 ? 'selected' : ''}" 
+                         onclick="selectSize(this, ${p.id}, ${opt.p}, '${opt.s}')">
+                        ${selo}
+                        <span class="size-name">${opt.s}</span>
+                        <span class="size-price">R$ ${opt.p.toFixed(2)}</span>
+                    </div>`;
+            });
+            sizeHtml += `</div>`;
+        }
+
         return `
         <div class="p-card" data-aos="fade-up">
             <img src="${p.img}" class="p-img">
             <div class="p-info">
                 <h3 class="p-title">${p.name}</h3>
                 <p class="p-desc">${p.desc}</p>
-                <select id="size-${p.id}" class="p-selector" style="${isSingle ? 'display:none' : ''}">
-                    ${p.options.map(o => `<option value="${o.p}">${o.s} - R$ ${o.p.toFixed(2)}</option>`).join('')}
-                </select>
-                <button class="btn-add" onclick="initPersonalization(${p.id})">
-                    ${isSingle ? 'Adicionar R$ ' + p.options[0].p.toFixed(2) : 'Escolher e Montar'}
+                ${sizeHtml}
+                <button class="btn-add" id="btn-add-${p.id}" 
+                    data-price="${p.options[0].p}" 
+                    data-label="${p.options[0].s}"
+                    onclick="initPersonalization(${p.id})">
+                    ${isSingle ? 'Adicionar R$ ' + p.options[0].p.toFixed(2) : 'Montar Copo'}
                 </button>
             </div>
         </div>`;
     }).join('');
 }
 
+// Função para gerenciar a seleção visual
+function selectSize(element, productId, price, label) {
+    // Remove 'selected' de todos no mesmo container
+    const container = document.getElementById(`sizes-container-${productId}`);
+    container.querySelectorAll('.size-option').forEach(opt => opt.classList.remove('selected'));
+    
+    // Adiciona no clicado
+    element.classList.add('selected');
+    
+    // Guarda o valor selecionado temporariamente num atributo do botão de adicionar
+    const addBtn = document.getElementById(`btn-add-${productId}`);
+    addBtn.setAttribute('data-price', price);
+    addBtn.setAttribute('data-label', label);
+}
+
 function initPersonalization(id) {
     const p = DB.products.find(i => i.id === id);
-    const sel = document.getElementById(`size-${id}`);
-    const price = parseFloat(sel.value);
-    const sizeLabel = p.options.length > 1 ? sel.options[sel.selectedIndex].text.split(' - ')[0] : "";
+    const addBtn = document.getElementById(`btn-add-${id}`);
+    
+    // Pega o preço e tamanho (Garante que se for nulo, pega o primeiro da lista)
+    let price = parseFloat(addBtn.getAttribute('data-price')) || p.options[0].p;
+    let sizeLabel = addBtn.getAttribute('data-label') || p.options[0].s;
 
+    // 1. Se for Picolé ou Bebida, adiciona direto
     if(p.cat === 'picole' || p.cat === 'bebida') {
-        CART.push({ name: `${p.name} (${sizeLabel || 'Unid'})`, price: price });
+        CART.push({ name: `*${p.name} (${sizeLabel})*`, price: price });
         updateCartUI();
         toggleCart();
         return;
     }
 
+    // 2. Se for Açaí ou Sorvete, prepara a montagem
     tempItem = { name: p.name, size: sizeLabel, price: price, cat: p.cat };
     
-    document.querySelectorAll('input[type="checkbox"]').forEach(c => { c.checked = false; c.disabled = false; });
+    // Reseta todos os campos antes de abrir
+    document.querySelectorAll('.builder-body input[type="checkbox"]').forEach(c => { 
+        c.checked = false; 
+        c.disabled = false; 
+    });
 
+    // Configura os textos e visibilidade das etapas
     const stepAcai = document.getElementById('step-sabores-acai');
     const stepSorvete = document.getElementById('step-sabores-sorvete');
 
-    // Visibilidade
     stepAcai.style.display = (p.cat === 'acai' || p.cat === 'casadinho') ? 'block' : 'none';
     stepSorvete.style.display = (p.cat === 'sorvete' || p.cat === 'casadinho') ? 'block' : 'none';
 
-    // Regras de Limites
+    // Define os limites baseados no produto
     let limiteAcai = 1;
     let limiteSorvete = (p.cat === 'sorvete') ? 2 : 1;
-    let limiteAcompanhamentos = 5; // Novo limite solicitado
+    let limiteAcomp = 5;
 
-    // Onde era stepAcai.querySelector('label'), mude para:
+    // Atualiza os títulos das etapas com os limites
     if(stepAcai) stepAcai.querySelector('.step-title').innerHTML = `<span class="numb">1</span> Escolha seu Açaí (Máx: ${limiteAcai})`;
     if(stepSorvete) stepSorvete.querySelector('.step-title').innerHTML = `<span class="numb">2</span> Escolha o Sorvete (Máx: ${limiteSorvete})`;
 
-    // Aplica os limites nos inputs
+    // Reatribui as funções de limite para garantir que funcionem
     document.querySelectorAll('.extra-sabor-acai').forEach(el => el.onchange = () => limitChecks('extra-sabor-acai', limiteAcai));
     document.querySelectorAll('.extra-sabor-sorvete').forEach(el => el.onchange = () => limitChecks('extra-sabor-sorvete', limiteSorvete));
-    document.querySelectorAll('.extra-free').forEach(el => el.onchange = () => limitChecks('extra-free', limiteAcompanhamentos));
+    document.querySelectorAll('.extra-free').forEach(el => el.onchange = () => limitChecks('extra-free', limiteAcomp));
     document.querySelectorAll('.extra-calda').forEach(el => el.onchange = () => limitChecks('extra-calda', 1));
 
-    document.getElementById('selected-product-name').innerText = `${p.name} ${sizeLabel}`;
-    document.getElementById('monte-seu').style.display = 'block';
-    document.getElementById('monte-seu').scrollIntoView({ behavior: 'smooth' });
+    // Mostra a tela e joga o foco nela
+    document.getElementById('selected-product-name').innerText = `${p.name} (${sizeLabel})`;
+    const builderSection = document.getElementById('monte-seu');
+    builderSection.style.display = 'block';
+    
+    // Scroll suave para o início da montagem
+    builderSection.scrollIntoView({ behavior: 'smooth' });
+}
+
+function cancelSelection() {
+    document.getElementById('monte-seu').style.display = 'none';
 }
 
 function limitChecks(className, limit) {
